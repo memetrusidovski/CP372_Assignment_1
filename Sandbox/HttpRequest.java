@@ -69,7 +69,7 @@ final class HttpRequest implements Runnable {
 	    contentTypeLine = "Content-Type: text/html" + CRLF;
 	    entityBody = "<HTML>" + 
 		"<HEAD><TITLE>Not Found</TITLE></HEAD>" +
-		"<BODY>Not Found Yes it is found</BODY></HTML>";
+		"<BODY>Not Found</BODY></HTML>";
         }
 	// Send the status line.
         os.writeBytes(statusLine);

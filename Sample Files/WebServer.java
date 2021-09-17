@@ -5,9 +5,9 @@ import java.util.* ;
 public final class WebServer {
     public static void main(String argv[]) throws Exception {
 	// Get the port number from the command line.
-//	int port = 5555;
+	int port = 5555;
 
- int port = new Integer(argv[0]).intValue();
+ //int port = new Integer(argv[0]).intValue();
 
 	// Establish the listen socket.
 	ServerSocket socket = new ServerSocket(port);

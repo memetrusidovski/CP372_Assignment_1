@@ -4,8 +4,20 @@ import java.net.Socket;
 public class TestServer {
     public static void main(String argv[]) throws Exception {
         ServerSocket serve = new ServerSocket(5000);
-        Socket s = serve.accept();
+        
+        while (true) {
+            // Listen for a TCP connection request.
+            Socket connection = serve.accept();
 
-        System.out.print("Hello client");
+            // Construct an object to process the HTTP request message.
+            HttpRequest request = new HttpRequest(connection);
+
+            // Create a new thread to process the request.
+            Thread thread = new Thread(request);
+
+            // Start the thread.
+            thread.start();
+        }
+
     }
 }
