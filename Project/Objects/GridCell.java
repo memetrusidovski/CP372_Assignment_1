@@ -1,3 +1,5 @@
+package objects;
+
 import java.util.ArrayList;
 
 public class GridCell {
@@ -6,5 +8,9 @@ public class GridCell {
 
     public void addPointer (Message m){
         this.messagePointers.add(m);
+    }
+
+    public boolean getPin(){
+        return this.hasPin;
     }
 }
