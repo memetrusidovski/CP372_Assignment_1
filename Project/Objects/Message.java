@@ -4,9 +4,6 @@ public class Message implements Serializable {
     String message = null;
     int x = 0;
     int y = 0;
-    String color = null;
-    int width = 1;
-    int height = 1;
 
     public Message(String message){
         this.message = message;

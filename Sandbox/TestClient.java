@@ -9,6 +9,8 @@ public class TestClient {
         ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
         ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
+        outputStream.writeObject("testServer.messageStack.get(0)");
+
         Message x = (Message)inputStream.readObject();
         System.out.println(x.message);
 
