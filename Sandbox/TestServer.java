@@ -1,23 +1,20 @@
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 public class TestServer {
+    public String colors = null;
     public static void main(String argv[]) throws Exception {
         ServerSocket serve = new ServerSocket(5000);
-        
-        while (true) {
-            // Listen for a TCP connection request.
-            Socket connection = serve.accept();
+        Socket connection = serve.accept();
 
-            // Construct an object to process the HTTP request message.
-            HttpRequest request = new HttpRequest(connection);
+          
+        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+        ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
-            // Create a new thread to process the request.
-            Thread thread = new Thread(request);
 
-            // Start the thread.
-            thread.start();
-        }
 
     }
 }
