@@ -17,8 +17,32 @@ public class Grid {
 
             //Add cells up to the width of the grid
             for(int y = 0; y < width; y++){
-                grid.get(0).add(new GridCell());
+                grid.get(x).add(new GridCell());
             }
+        }
+    }
+
+    public GridCell getCell(int x, int y){
+        GridCell cell;
+
+        cell = grid.get(x).get(y);
+
+        return cell;
+    }
+
+    //NOT DONE
+    public void setCell(Message message){
+        GridCell x = this.getCell(message.getX(),message.getY());
+        
+    }
+
+    //For testing purposes
+    public void printGrid(){
+        for(int y = 0 ; y < 5; y++){
+            for(int x = 0; x < 5 ; x++){
+                    System.out.print(this.grid.get(y).get(x).hasPin + " ");
+            }
+            System.out.println("\n");
         }
     }
     

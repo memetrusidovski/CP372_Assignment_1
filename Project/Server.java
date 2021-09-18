@@ -11,12 +11,12 @@ public class Server {
         colors.add("red");
         colors.add("blue");
 
-        Database x = new Database(5,5,colors);
-
-        System.out.println(x.colors.toString());
+        Database database = new Database(5,5,colors);
 
         //Create the server Socket
         ServerSocket serve = new ServerSocket(5555);
+
+        database.grid.grid.get(4).get(3).hasPin=true;
 
         while (true) {
             Socket connection = serve.accept();
@@ -26,6 +26,11 @@ public class Server {
 
             outputStream.writeObject("Welcome to the Server");
             System.out.println("Someone Connected");
+
+            //Spin off the request into a service thread
+            Service service = new Service(database);
+            Thread thread = new Thread(service);
+            thread.start();
         }
         
     }

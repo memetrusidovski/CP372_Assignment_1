@@ -4,8 +4,14 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
     String message = null;
+    String color;
+
+    boolean status = false;
+
     int x = 0;
     int y = 0;
+    int width = 1;
+    int height = 1;
 
     public Message(String message){
         this.message = message;
@@ -15,6 +21,14 @@ public class Message implements Serializable {
         this.message = message;
         this.x = x;
         this.y = y;
+    }
+    
+    public Message(String message, int x, int y, int width, int height) {
+        this.message = message;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
     public String getMessage(){
@@ -27,5 +41,17 @@ public class Message implements Serializable {
 
     public int getY() {
         return this.y;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public String getColour(){
+        return this.color;
     }
 }

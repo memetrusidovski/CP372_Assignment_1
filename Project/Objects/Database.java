@@ -17,5 +17,8 @@ public class Database {
         this.colors = colors;
     }
 
+    public void addMessage(Message message){
+        this.messageStack.add(message);
+    }
     
 }
