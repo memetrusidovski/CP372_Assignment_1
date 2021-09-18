@@ -3,11 +3,15 @@ import java.net.* ;
 import java.util.* ;
 
 public final class WebServer {
+	public ArrayList<String> colors = new ArrayList<String>();
+	public ArrayList<Message> messageStack = new ArrayList<Message>();
+
     public static void main(String argv[]) throws Exception {
 	// Get the port number from the command line.
 	int port = 5555;
 
- //int port = new Integer(argv[0]).intValue();
+	WebServer server = new WebServer();
+ 	//int port = new Integer(argv[0]).intValue();
 
 	// Establish the listen socket.
 	ServerSocket socket = new ServerSocket(port);
@@ -18,13 +22,13 @@ public final class WebServer {
 	    Socket connection = socket.accept();
 	    
 	    // Construct an object to process the HTTP request message.
-	    HttpRequest request = new HttpRequest(connection);
+	    //HttpRequest request = new HttpRequest(connection);
 	    
 	    // Create a new thread to process the request.
-	    Thread thread = new Thread(request);
+	    //Thread thread = new Thread(request);
 	    
 	    // Start the thread.
-	    thread.start();
+	    //thread.start();
 	}
     }
 }
