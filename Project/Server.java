@@ -16,19 +16,20 @@ public class Server {
         //Create the server Socket
         ServerSocket serve = new ServerSocket(5555);
 
-        database.grid.grid.get(4).get(3).hasPin=true;
+        //database.grid.grid.get(4).get(3).hasPin=true; 
+        
 
         while (true) {
             Socket connection = serve.accept();
 
-            ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
-            ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
+            //ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+            //ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
-            outputStream.writeObject("Welcome to the Server");
+            
             System.out.println("Someone Connected");
 
             //Spin off the request into a service thread
-            Service service = new Service(database);
+            Service service = new Service(database, connection);
             Thread thread = new Thread(service);
             thread.start();
         }

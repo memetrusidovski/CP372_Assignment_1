@@ -1,11 +1,16 @@
 package objects;
 
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
 public class Service implements Runnable {
     Database database;
     String command;
+    Socket connection;
 
-    public Service(Database database){
+    public Service(Database database, Socket connection) throws Exception{
         this.database = database;
+        this.connection = connection;
     }
 
     //Start a thread to complete the service
@@ -19,13 +24,72 @@ public class Service implements Runnable {
 
     //Do the request(Business Logic)
     private void processRequest() throws Exception {
-        System.out.println("Hello Moto");
+        this.database.grid.setMessage(new Message("message", 2, 2,2,2));
+
+        this.newClientConnected();
+
+        //sample messages
+        this.newMessage("2;2;2;2!$This is a sample message");
+        this.newMessage("1;2;2;2!$Hello Person");
+        sendAllMessages();
+
         this.database.grid.printGrid();
+
+    }
+
+    //When a client first connects give them the data needed to create their board
+    public void newClientConnected() throws Exception{
+        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+        
+        //Get the Grid details 
+        String x = String.valueOf(this.database.boardWidth);
+        String y = String.valueOf(this.database.boardHeight);
+        String colors = "";
+        for(String s: this.database.colors){
+            colors+= " " + s;
+        }
+
+        outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
+    }
+
+    public void addPin(int x, int y){
+        this.database.grid.pinCount++;
+        this.database.grid.setPin(x,y);
+    }
+
+    public void newMessage(String s){
+        
+        //PARSE THE MESSAGE DETAILS
+        String[] parse = s.split("!\\$");
+        String[] sizing = parse[0].split(";");
+
+
+        if (sizing.length == 4) {
+            Message message = new Message(parse[1], Integer.valueOf(sizing[0]), 
+                                    Integer.valueOf(sizing[1]), Integer.valueOf(sizing[2]),
+                                        Integer.valueOf(sizing[3]));
+
+            this.database.grid.setMessage(message);
+            this.database.messageStack.add(message);
+        }
+
+    }
+
+    public void sendAllMessages() throws Exception{
+        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+
+        String send = "[";
+        for (Message s : this.database.messageStack) {
+            send += "{" + s.message + "},";
+            //outputStream.writeObject( s );
+        }
+
+        outputStream.writeObject("This is all the messages: " + send + "]");
     }
 
     //Request Types
     public void postRequest(String command){
-        
+
     }
 
 
