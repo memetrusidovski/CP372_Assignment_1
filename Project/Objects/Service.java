@@ -5,12 +5,17 @@ import java.net.Socket;
 
 public class Service implements Runnable {
     Database database;
-    String command;
     Socket connection;
+    Request request;
 
     public Service(Database database, Socket connection) throws Exception{
         this.database = database;
         this.connection = connection;
+    }
+    public Service(Database database, Socket connection, Request request) throws Exception{
+        this.database = database;
+        this.connection = connection;
+        this.request = request;
     }
 
     //Start a thread to complete the service
@@ -29,10 +34,11 @@ public class Service implements Runnable {
         this.newClientConnected();
 
         //sample messages
-        this.newMessage("2;2;2;2!$This is a sample message");
-        this.newMessage("1;2;2;2!$Hello Person");
-        sendAllMessages();
+        this.newMessage("5;5;10;10!$This is a sample message");
+        //this.newMessage("1;2;2;2!$Hello Person");
+        //sendAllMessages();
 
+        this.addPin(1,1);
         this.database.grid.printGrid();
 
     }
@@ -40,8 +46,8 @@ public class Service implements Runnable {
     //When a client first connects give them the data needed to create their board
     public void newClientConnected() throws Exception{
         ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
-        
-        //Get the Grid details 
+
+        //Get the Grid details
         String x = String.valueOf(this.database.boardWidth);
         String y = String.valueOf(this.database.boardHeight);
         String colors = "";
@@ -49,23 +55,28 @@ public class Service implements Runnable {
             colors+= " " + s;
         }
 
-        outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
+        //outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
+        outputStream.writeObject(this.database.grid);
     }
 
     public void addPin(int x, int y){
         this.database.grid.pinCount++;
         this.database.grid.setPin(x,y);
+        this.database.grid.getCell(x,y).messagePointers.forEach((e)-> {
+            e.status = true;
+            e.pinCount++;
+        });
     }
 
     public void newMessage(String s){
-        
+
         //PARSE THE MESSAGE DETAILS
         String[] parse = s.split("!\\$");
         String[] sizing = parse[0].split(";");
 
 
         if (sizing.length == 4) {
-            Message message = new Message(parse[1], Integer.valueOf(sizing[0]), 
+            Message message = new Message(parse[1], Integer.valueOf(sizing[0]),
                                     Integer.valueOf(sizing[1]), Integer.valueOf(sizing[2]),
                                         Integer.valueOf(sizing[3]));
 
@@ -89,6 +100,28 @@ public class Service implements Runnable {
 
     //Request Types
     public void postRequest(String command){
+
+    }
+
+    public void shake() throws Exception {
+        int c = 0;
+        for (Message m: this.database.messageStack){
+            if (m.pinCount == 0){
+                this.database.messageStack.remove(c);
+                c++;
+            }
+        }
+        this.sendGrid();
+    }
+
+    private void sendGrid() throws Exception{
+        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+
+        //outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
+        outputStream.writeObject(this.database.grid);
+    }
+
+    public void clear(){
 
     }
 

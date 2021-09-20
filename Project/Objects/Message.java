@@ -6,7 +6,9 @@ public class Message implements Serializable {
     String message = null;
     String color;
 
+    //is the message pinned
     boolean status = false;
+    int pinCount = 0;
 
     int x = 0;
     int y = 0;
@@ -16,13 +18,13 @@ public class Message implements Serializable {
     public Message(String message){
         this.message = message;
     }
-    
+
     public Message(String message, int x, int y) {
         this.message = message;
         this.x = x;
         this.y = y;
     }
-    
+
     public Message(String message, int x, int y, int width, int height) {
         this.message = message;
         this.x = x;

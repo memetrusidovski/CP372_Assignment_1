@@ -1,8 +1,9 @@
 package objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Grid {
+public class Grid implements Serializable {
     public int width;
     public int height;
     public int pinCount;
@@ -41,19 +42,25 @@ public class Grid {
         //GridCell c = this.getCell(getX, getY);
 
         for (int y = getY; y > getY - message.height && y >=0; y--) {
-            System.out.println("+++++++++");
+            //System.out.println("+++++++++");
             for (int x = getX; x < getX + message.width && x <= this.width; x++) {
-                this.grid.get(y).get(x).hasPin = true;
-                System.out.println("<<<<<<<<<<<<");
+                //this.grid.get(x).get(y).hasPin = true;
+                this.grid.get(x).get(y).messagePointers.add(message);
+                //System.out.println("<<<<<<<<<<<<");
             }
         }
     }
 
     // For testing purposes
     public void printGrid() {
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 5; x++) {
-                System.out.print(this.grid.get(y).get(x).hasPin + " ");
+        for (int y = 0; y < this.height; y++) {
+            for (int x = 0; x < this.width; x++) {
+                if(this.grid.get(x).get(y).messagePointers.size() > 0){
+                    System.out.print(" 1 ");
+                }
+                else{
+                    System.out.print(" 0 ");
+                }
             }
             System.out.println("\n");
         }

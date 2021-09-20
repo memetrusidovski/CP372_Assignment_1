@@ -1,8 +1,9 @@
 package objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GridCell {
+public class GridCell implements Serializable {
     ArrayList<Message> messagePointers = new ArrayList<Message>();
     public boolean hasPin = false;
 

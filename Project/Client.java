@@ -1,3 +1,6 @@
+import objects.Grid;
+import objects.GridCell;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -10,8 +13,11 @@ public class Client {
         ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
 
-        String x = (String) inputStream.readObject();
-        System.out.println(x);
+        //String x = (String) inputStream.readObject();
+        //System.out.println(x);
+        Grid x = (Grid) inputStream.readObject();
+        x.printGrid();
+        //System.out.println(x);
 
     }
 }
