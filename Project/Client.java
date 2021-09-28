@@ -1,7 +1,3 @@
-import GUI.ConnectPanel;
-import GUI.getGrid;
-import objects.Grid;
-import objects.GridCell;
 
 import javax.swing.*;
 import java.awt.*;

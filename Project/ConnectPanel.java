@@ -1,6 +1,3 @@
-package GUI;
-
-import objects.Grid;
 
 import javax.swing.*;
 import java.io.ObjectInputStream;
