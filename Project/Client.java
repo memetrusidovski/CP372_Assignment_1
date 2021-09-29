@@ -27,22 +27,26 @@ public class Client {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 1000);
 
-        JPanel connectPanel = new ConnectPanel(st);
+        ConnectPanel connectPanel = new ConnectPanel(st);
+        PostPanel 	 postPanel	  = new PostPanel();
+        GetPanel	 getPanel	  = new GetPanel();
+        PinPanel	 pinPanel	  = new PinPanel();
+        ClearPanel	 clearPanel	  = new ClearPanel();
 
         JTabbedPane controls = new JTabbedPane(JTabbedPane.LEFT);
         
         controls.add("Connect",connectPanel);
-        controls.add("Post",new JPanel());
-        controls.add("Get",new JPanel());
-        controls.add("Pin/Unpin",new JPanel());
-        controls.add("Clear/Shake",new JPanel());
+        controls.add("Post",postPanel);
+        controls.add("Get",getPanel);
+        controls.add("Pin/Unpin",pinPanel);
+        controls.add("Clear/Shake",clearPanel);
         
         //Adding Components to the frame.
         frame.add(controls,BorderLayout.WEST);
 
         frame.setVisible(true);
 
-        System.out.println(((ConnectPanel) connectPanel).getS());
+        System.out.println(connectPanel.getS());
     }
     
     public static Client getInstance() {
