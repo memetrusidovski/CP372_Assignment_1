@@ -34,6 +34,8 @@ public class Grid implements Serializable {
 
     // DONE
     public void setMessage(Message message) {
+        this.messageStack.add(message);
+
         int getX = message.getX();
         int getY = message.getY();
 
@@ -70,4 +72,15 @@ public class Grid implements Serializable {
         this.grid.get(y).get(x).hasPin = true;
     }
 
+    public void removeMessage(Message removeMessage) {
+        //this.messageStack.remove(removeMessage);
+        int getX = removeMessage.getX();
+        int getY = removeMessage.getY();
+
+        for (int y = getY; y > getY - removeMessage.height && y >=0; y--) {
+            for (int x = getX; x < getX + removeMessage.width && x <= this.width; x++) {
+                this.grid.get(x).get(y).messagePointers.remove(removeMessage);
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Service implements Runnable {
     Database database;
@@ -29,15 +30,16 @@ public class Service implements Runnable {
     //Do the request(Business Logic)
     private void processRequest() throws Exception {
         this.database.grid.setMessage(new Message("message", 2, 2,2,2));
+        this.database.grid.setMessage(new Message("other message", 5, 5,10,10));
 
         this.newClientConnected();
 
         //sample messages
-        this.newMessage("5;5;10;10!$This is a sample message");
+        //this.newMessage("5;5;10;10!$This is a sample message");
         //this.newMessage("1;2;2;2!$Hello Person");
         //sendAllMessages();
-        //this.shake();
-        //this.addPin(1,1);
+        this.addPin(2,2);
+        this.shake();
         this.database.grid.printGrid();
 
     }
@@ -99,21 +101,19 @@ public class Service implements Runnable {
         outputStream.writeObject("This is all the messages: " + send + "]");
     }
 
-    //Request Types
-    public void postRequest(String command){
 
-    }
 
     public void shake() throws Exception {
         int c = 0;
-        for (Message m: this.database.messageStack){
-            if (m.pinCount == 0){
-                this.database.messageStack.remove(c);
 
+        for (Message m: (ArrayList<Message>) this.database.grid.messageStack.clone()){
+            if (m.pinCount ==  0){
+                Message removeMessage = this.database.grid.messageStack.remove(c);
+                this.database.grid.removeMessage(removeMessage);
+                c--;
             }
             c++;
         }
-        this.sendGrid();
     }
 
     private void sendGrid() throws Exception{
