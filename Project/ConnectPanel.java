@@ -9,16 +9,11 @@ public class ConnectPanel extends JPanel {
     String s;
 
     public ConnectPanel(String st){
-        try {
-            this.initUI();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.s = st;
+    	this.s = st;
+        this.initUI();
     }
 
-    private void initUI() throws Exception{
-        JPanel panel = new JPanel(); // the panel is not visible in output
+    private void initUI(){
 
         JLabel label = new JLabel("IP Address");
         JTextField tf = new JTextField(10); // accepts upto 10 characters
@@ -28,12 +23,6 @@ public class ConnectPanel extends JPanel {
 
         tf.setText("localhost");
         port.setText("5555");
-
-        panel.add(label); // Components Added using Flow Layout
-        panel.add(tf);
-        panel.add(port);
-        panel.add(send);
-        panel.add(reset);
 
         send.addActionListener( (e)->{
             String x = null;
@@ -47,11 +36,17 @@ public class ConnectPanel extends JPanel {
             label.setText(this.s);
         });
 
+        // For testing
         reset.addActionListener( (e)->{
         	Client.getInstance().grid.printGrid();
         });
         
-        add(panel);
+        add(label); // Components Added using Flow Layout
+        add(tf);
+        add(port);
+        add(send);
+        add(reset);
+        
     }
 
     private String getData() throws Exception{
