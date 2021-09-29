@@ -52,8 +52,6 @@ public class ConnectPanel extends JPanel {
         });
         
         add(panel);
-
-        panel.setVisible(true);
     }
 
     private String getData() throws Exception{

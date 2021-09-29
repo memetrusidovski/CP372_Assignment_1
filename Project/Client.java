@@ -29,8 +29,16 @@ public class Client {
 
         JPanel connectPanel = new ConnectPanel(st);
 
+        JTabbedPane controls = new JTabbedPane(JTabbedPane.LEFT);
+        
+        controls.add("Connect",connectPanel);
+        controls.add("Post",new JPanel());
+        controls.add("Get",new JPanel());
+        controls.add("Pin/Unpin",new JPanel());
+        controls.add("Clear/Shake",new JPanel());
+        
         //Adding Components to the frame.
-        frame.getContentPane().add(BorderLayout.NORTH, connectPanel);
+        frame.add(controls,BorderLayout.WEST);
 
         frame.setVisible(true);
 
