@@ -47,6 +47,10 @@ public class ConnectPanel extends JPanel {
             label.setText(this.s);
         });
 
+        reset.addActionListener( (e)->{
+        	Client.getInstance().grid.printGrid();
+        });
+        
         add(panel);
 
         panel.setVisible(true);
@@ -59,6 +63,7 @@ public class ConnectPanel extends JPanel {
         ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
         Grid x = (Grid) inputStream.readObject();
+        Client.getInstance().grid = x;
         x.printGrid();
 
         return "Grid Received";
