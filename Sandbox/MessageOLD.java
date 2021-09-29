@@ -1,15 +1,15 @@
 import java.io.Serializable;
 
-public class Message implements Serializable{
+public class MessageOLD implements Serializable{
     String message = null;
     int x = 0;
     int y = 0;
 
-    public Message(String message){
+    public MessageOLD(String message){
         this.message = message;
     }
-    
-    public Message(String message, int x, int y) {
+
+    public MessageOLD(String message, int x, int y) {
         this.message = message;
         this.x = x;
         this.y = y;

@@ -7,6 +7,7 @@ public class Grid implements Serializable {
     public int height;
     public int pinCount;
     public ArrayList<ArrayList<GridCell>> grid = new ArrayList<ArrayList<GridCell>>();
+    public ArrayList<Message> messageStack = new ArrayList<Message>();
 
     public Grid(int width, int height) {
         this.width = width;

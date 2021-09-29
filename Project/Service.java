@@ -36,8 +36,8 @@ public class Service implements Runnable {
         this.newMessage("5;5;10;10!$This is a sample message");
         //this.newMessage("1;2;2;2!$Hello Person");
         //sendAllMessages();
-
-        this.addPin(1,1);
+        //this.shake();
+        //this.addPin(1,1);
         this.database.grid.printGrid();
 
     }
@@ -56,6 +56,7 @@ public class Service implements Runnable {
 
         //outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
         outputStream.writeObject(this.database.grid);
+        //outputStream.writeObject(this.database.messageStack);
     }
 
     public void addPin(int x, int y){
@@ -67,6 +68,7 @@ public class Service implements Runnable {
         });
     }
 
+    //OLD
     public void newMessage(String s){
 
         //PARSE THE MESSAGE DETAILS
@@ -107,8 +109,9 @@ public class Service implements Runnable {
         for (Message m: this.database.messageStack){
             if (m.pinCount == 0){
                 this.database.messageStack.remove(c);
-                c++;
+
             }
+            c++;
         }
         this.sendGrid();
     }

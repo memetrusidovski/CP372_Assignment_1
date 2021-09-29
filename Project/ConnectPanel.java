@@ -36,6 +36,7 @@ public class ConnectPanel extends JPanel {
             label.setText(this.s);
         });
 
+<<<<<<< HEAD
         // For testing
         reset.addActionListener( (e)->{
         	Client.getInstance().grid.printGrid();
@@ -47,6 +48,11 @@ public class ConnectPanel extends JPanel {
         add(send);
         add(reset);
         
+=======
+        add(panel);
+
+        panel.setVisible(true);
+>>>>>>> branch 'main' of https://github.com/memetrusidovski/CP372_Assignment_1.git
     }
 
     private String getData() throws Exception{
@@ -56,7 +62,6 @@ public class ConnectPanel extends JPanel {
         ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
         Grid x = (Grid) inputStream.readObject();
-        Client.getInstance().grid = x;
         x.printGrid();
 
         return "Grid Received";

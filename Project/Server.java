@@ -10,7 +10,7 @@ public class Server {
         colors.add("red");
         colors.add("blue");
 
-        Database database = new Database(50,50,colors);
+        Database database = new Database(500,500,colors);
 
         //Create the server Socket
         ServerSocket serve = new ServerSocket(5555);
@@ -23,7 +23,7 @@ public class Server {
 
             //ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
             //ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
-
+            //Request r = (Request) inputStream.readObject();
 
             System.out.println("Someone Connected");
 

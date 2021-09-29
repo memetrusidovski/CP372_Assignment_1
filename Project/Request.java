@@ -6,6 +6,12 @@ public class Request implements Serializable {
                                                 "CLEAR", "SHAKE", "PIN", "UNPIN", "ERROR"};
     int x;
     int y;
+    String request;
     String color;
+
+    Request(String request){
+        this.request = request;
+    }
+
 
 }
