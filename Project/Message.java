@@ -2,7 +2,9 @@
 import java.io.Serializable;
 
 public class Message implements Serializable {
-    String message = null;
+    
+	private static final long serialVersionUID = 5183962720651437962L;
+	String message = null;
     String color;
 
     //is the message pinned

@@ -3,7 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Note extends JPanel {
-    public int[] colour;
+    
+	private static final long serialVersionUID = -2184638162077818005L;
+	public int[] colour;
     int x;
     int y;
     int width;

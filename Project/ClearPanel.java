@@ -3,6 +3,8 @@ import javax.swing.JButton;
 
 public class ClearPanel extends JPanel {
 
+	private static final long serialVersionUID = 5608630856207475319L;
+
 	public ClearPanel() {
 		this.initUI();
 	}

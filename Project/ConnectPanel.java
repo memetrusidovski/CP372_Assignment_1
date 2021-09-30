@@ -6,7 +6,8 @@ import java.net.Socket;
 
 public class ConnectPanel extends JPanel {
 
-    String s;
+	private static final long serialVersionUID = 5634329278457109224L;
+	String s;
 
     public ConnectPanel(String st){
     	this.s = st;
@@ -55,7 +56,9 @@ public class ConnectPanel extends JPanel {
         ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
         Grid x = (Grid) inputStream.readObject();
+        Client.getInstance().grid = x;
         x.printGrid();
+        Client.getInstance().pinPanel.updateDimensions(x.width, x.height);
 
         return "Grid Received";
     }
