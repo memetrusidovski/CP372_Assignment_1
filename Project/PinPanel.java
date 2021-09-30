@@ -3,7 +3,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.GridBagConstraints;
 
 public class PinPanel extends JPanel {
 
@@ -35,11 +37,20 @@ public class PinPanel extends JPanel {
 		JButton pinButton 	= new JButton("Pin");
 		JButton unpinButton = new JButton("Unpin");
 		
-		setLayout(new GridLayout(4,1));
-		add(xPanel);
-		add(yPanel);
-		add(pinButton);
-		add(unpinButton);
+		setLayout(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(10, 0, 10, 0);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy++;
+		
+		add(xPanel,gbc);
+		gbc.gridy++;
+		add(yPanel,gbc);
+		gbc.gridy++;
+		add(pinButton,gbc);
+		gbc.gridy++;
+		add(unpinButton,gbc);
 		
 	}
 	
