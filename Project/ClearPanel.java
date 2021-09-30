@@ -1,4 +1,7 @@
 import javax.swing.JPanel;
+
+import java.awt.GridLayout;
+
 import javax.swing.JButton;
 
 public class ClearPanel extends JPanel {
@@ -15,6 +18,7 @@ public class ClearPanel extends JPanel {
 		JButton shakeButton = new JButton("Shake");
 		JButton dcButton	= new JButton("Disconnect");
 		
+		setLayout(new GridLayout(4,1));
 		add(clearButton);
 		add(shakeButton);
 		add(dcButton);
