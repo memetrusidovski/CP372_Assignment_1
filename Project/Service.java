@@ -2,6 +2,7 @@
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Service implements Runnable {
     Database database;
@@ -106,7 +107,9 @@ public class Service implements Runnable {
     public void shake() throws Exception {
         int c = 0;
 
-        for (Message m: (ArrayList<Message>) this.database.grid.messageStack.clone()){
+        List<Message> messages = new ArrayList<Message>(this.database.grid.messageStack);
+        
+        for (Message m: messages){
             if (m.pinCount ==  0){
                 Message removeMessage = this.database.grid.messageStack.remove(c);
                 this.database.grid.removeMessage(removeMessage);

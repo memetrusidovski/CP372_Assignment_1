@@ -1,4 +1,5 @@
 import javax.swing.JPanel;
+import javax.swing.JButton;
 
 public class ClearPanel extends JPanel {
 
@@ -7,6 +8,14 @@ public class ClearPanel extends JPanel {
 	}
 	
 	private void initUI() {
+		
+		JButton clearButton = new JButton("Clear");
+		JButton shakeButton = new JButton("Shake");
+		JButton dcButton	= new JButton("Disconnect");
+		
+		add(clearButton);
+		add(shakeButton);
+		add(dcButton);
 		
 	}
 	
