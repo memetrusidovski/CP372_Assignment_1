@@ -1,7 +1,9 @@
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import java.awt.GridLayout;
 
 public class PinPanel extends JPanel {
 
@@ -18,14 +20,24 @@ public class PinPanel extends JPanel {
 		xModel = new SpinnerNumberModel(0, 0, 0, 1);
 		yModel = new SpinnerNumberModel(0, 0, 0, 1);
 		
-		JSpinner x = new JSpinner(xModel);
-		JSpinner y = new JSpinner(yModel);
+		JPanel xPanel 	  = new JPanel();
+		JLabel xLabel 	  = new JLabel("X:");
+		JSpinner xSpinner = new JSpinner(xModel);
+		xPanel.add(xLabel);
+		xPanel.add(xSpinner);
+		
+		JPanel yPanel 	  = new JPanel();
+		JLabel yLabel 	  = new JLabel("Y:");
+		JSpinner ySpinner = new JSpinner(yModel);
+		yPanel.add(yLabel);
+		yPanel.add(ySpinner);
 		
 		JButton pinButton 	= new JButton("Pin");
 		JButton unpinButton = new JButton("Unpin");
 		
-		add(x);
-		add(y);
+		setLayout(new GridLayout(4,1));
+		add(xPanel);
+		add(yPanel);
 		add(pinButton);
 		add(unpinButton);
 		

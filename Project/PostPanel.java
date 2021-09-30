@@ -10,6 +10,8 @@ public class PostPanel extends JPanel {
 	
 	private void initUI() {
 		
+		
+		
 	}
 	
 }
