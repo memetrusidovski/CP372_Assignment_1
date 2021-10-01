@@ -10,6 +10,8 @@ public class Client {
 	
     Grid grid;
     PinPanel pinPanel;
+    PostPanel postPanel;
+    GetPanel getPanel;
 
     public static void main(String argv[]) throws Exception {
         getInstance().initUI();
@@ -30,8 +32,8 @@ public class Client {
         frame.setLayout(new BorderLayout());
 
         ConnectPanel connectPanel = new ConnectPanel(st);
-        PostPanel 	 postPanel	  = new PostPanel();
-        GetPanel	 getPanel	  = new GetPanel();
+        			 postPanel	  = new PostPanel();
+        			 getPanel	  = new GetPanel();
         			 pinPanel	  = new PinPanel();
         ClearPanel	 clearPanel	  = new ClearPanel();
 
