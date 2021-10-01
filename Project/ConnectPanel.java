@@ -7,8 +7,10 @@ import java.net.Socket;
 public class ConnectPanel extends JPanel {
 
     String s;
+    Grid grid;
 
-    public ConnectPanel(String st){
+    public ConnectPanel(String st, Grid gird){
+        this.grid = grid;
     	this.s = st;
         this.initUI();
     }
@@ -36,23 +38,19 @@ public class ConnectPanel extends JPanel {
             label.setText(this.s);
         });
 
-<<<<<<< HEAD
         // For testing
         reset.addActionListener( (e)->{
-        	Client.getInstance().grid.printGrid();
+        	//Client.getInstance().grid.printGrid();
+            Client.boardPanel.repaint();
+            System.out.println(this.grid.messageStack.get(0).message);
         });
-        
+
         add(label); // Components Added using Flow Layout
         add(tf);
         add(port);
         add(send);
         add(reset);
-        
-=======
-        add(panel);
 
-        panel.setVisible(true);
->>>>>>> branch 'main' of https://github.com/memetrusidovski/CP372_Assignment_1.git
     }
 
     private String getData() throws Exception{
@@ -63,6 +61,9 @@ public class ConnectPanel extends JPanel {
 
         Grid x = (Grid) inputStream.readObject();
         x.printGrid();
+        System.out.println(x.messageStack.get(0).message);
+        this.grid = x;
+        Client.boardPanel.grid = x;
 
         return "Grid Received";
     }
