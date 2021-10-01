@@ -1,5 +1,4 @@
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -13,13 +12,26 @@ public class Server {
         Database database = new Database(50,50,colors);
 
         //Create the server Socket
-        ServerSocket serve = new ServerSocket(5555);
+        ServerSocket server = new ServerSocket(5555);
 
         //database.grid.grid.get(4).get(3).hasPin=true;
 
+        
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					server.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+        	
+        }));
 
         while (true) {
-            Socket connection = serve.accept();
+            Socket connection = server.accept();
 
             //ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
             //ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());

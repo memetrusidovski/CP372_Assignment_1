@@ -7,7 +7,9 @@ import java.net.Socket;
 public class ConnectPanel extends JPanel {
 
 	private static final long serialVersionUID = 5634329278457109224L;
-	String s;
+	private String s;
+	private JTextField address;
+	private JTextField port;
 
     public ConnectPanel(String st){
     	this.s = st;
@@ -16,13 +18,13 @@ public class ConnectPanel extends JPanel {
 
     private void initUI(){
 
-        JLabel label = new JLabel("IP Address");
-        JTextField tf = new JTextField(10); // accepts upto 10 characters
-        JTextField port = new JTextField(4);
+        JLabel label 	= new JLabel("IP Address");
+        		address = new JTextField(10); // accepts up to 10 characters
+        		port 	= new JTextField(4);
         JButton send = new JButton("Connect");
         JButton reset = new JButton("Reset");
 
-        tf.setText("localhost");
+        address.setText("localhost");
         port.setText("5555");
 
         send.addActionListener( (e)->{
@@ -43,22 +45,16 @@ public class ConnectPanel extends JPanel {
         });
         
         add(label); // Components Added using Flow Layout
-        add(tf);
+        add(address);
         add(port);
         add(send);
         add(reset);
     }
 
     private String getData() throws Exception{
-        Socket connection = new Socket("localhost", 5555);
-
-        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
-        ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
-
-        Grid x = (Grid) inputStream.readObject();
-        Client.getInstance().grid = x;
-        x.printGrid();
-        Client.getInstance().pinPanel.updateDimensions(x.width, x.height);
+    	String host = address.getText();
+    	int port = Integer.parseInt(this.port.getText());
+        Client.getInstance().connection.connect(host, port);
 
         return "Grid Received";
     }

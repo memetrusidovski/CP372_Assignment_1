@@ -1,6 +1,9 @@
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 
@@ -17,6 +20,19 @@ public class ClearPanel extends JPanel {
 		JButton clearButton = new JButton("Clear");
 		JButton shakeButton = new JButton("Shake");
 		JButton dcButton	= new JButton("Disconnect");
+		
+		dcButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Client.getInstance().connection.disconnect();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		});
 		
 		setLayout(new GridBagLayout());
 		

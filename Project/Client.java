@@ -1,8 +1,5 @@
 import javax.swing.*;
 import java.awt.BorderLayout;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class Client {
 	
@@ -12,6 +9,7 @@ public class Client {
     PinPanel pinPanel;
     PostPanel postPanel;
     GetPanel getPanel;
+    final Connection connection = new Connection();
 
     public static void main(String argv[]) throws Exception {
         getInstance().initUI();
