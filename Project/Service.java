@@ -33,6 +33,8 @@ public class Service implements Runnable {
         this.database.grid.setMessage(new Message("message", 2, 2,2,2));
         this.database.grid.setMessage(new Message("other message", 5, 5,10,10));
 
+        //this.database.grid.setMessage(new Message("BIG message", 30, 30,100,100));
+
         this.newClientConnected();
 
         //sample messages
@@ -108,7 +110,7 @@ public class Service implements Runnable {
         int c = 0;
 
         List<Message> messages = new ArrayList<Message>(this.database.grid.messageStack);
-        
+
         for (Message m: messages){
             if (m.pinCount ==  0){
                 Message removeMessage = this.database.grid.messageStack.remove(c);

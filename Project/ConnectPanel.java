@@ -10,6 +10,7 @@ public class ConnectPanel extends JPanel {
 	private String s;
 	private JTextField address;
 	private JTextField port;
+	Grid grid;
 
     public ConnectPanel(String st){
     	this.s = st;
@@ -41,9 +42,10 @@ public class ConnectPanel extends JPanel {
 
         // For testing
         reset.addActionListener( (e)->{
-        	Client.getInstance().grid.printGrid();
+        	//Client.getInstance().grid.printGrid();
+            Client.messagePanel.repaint();
         });
-        
+
         add(label); // Components Added using Flow Layout
         add(address);
         add(port);
@@ -54,7 +56,9 @@ public class ConnectPanel extends JPanel {
     private String getData() throws Exception{
     	String host = address.getText();
     	int port = Integer.parseInt(this.port.getText());
-        Client.getInstance().connection.connect(host, port);
+        Grid x = Client.getInstance().connection.connect(host, port);
+
+        Client.grid = x;
 
         return "Grid Received";
     }

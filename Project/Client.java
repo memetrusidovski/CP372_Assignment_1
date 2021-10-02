@@ -2,10 +2,13 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 
 public class Client {
-	
+
 	private static Client instance = null;
-	
-    Grid grid;
+
+	//For updating the message board
+    static Grid grid = null;
+    static MessagePanel messagePanel = new MessagePanel(grid);
+
     PinPanel pinPanel;
     PostPanel postPanel;
     GetPanel getPanel;
@@ -15,11 +18,11 @@ public class Client {
         getInstance().initUI();
 
     }
-    
+
     private Client() {
     	// Private constructor to prevent external instantiation (ensure singleton instance)
     }
-    
+
     private void initUI() {
     	String st = "Google";
 
@@ -36,26 +39,27 @@ public class Client {
         ClearPanel	 clearPanel	  = new ClearPanel();
 
         JTabbedPane controls = new JTabbedPane(JTabbedPane.LEFT);
-        
+
         controls.add("Connect",connectPanel);
         controls.add("Post",postPanel);
         controls.add("Get",getPanel);
         controls.add("Pin/Unpin",pinPanel);
         controls.add("Clear/Shake",clearPanel);
-        
+
         //Adding Components to the frame.
         frame.add(controls,BorderLayout.WEST);
+        frame.add(messagePanel,BorderLayout.EAST);
 
         frame.setVisible(true);
 
         System.out.println(connectPanel.getS());
     }
-    
+
     public static Client getInstance() {
     	if(instance == null) {
     		instance = new Client();
     	}
     	return instance;
     }
-    
+
 }
