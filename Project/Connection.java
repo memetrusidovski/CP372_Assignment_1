@@ -21,8 +21,10 @@ public class Connection {
         //Client.grid = x;
         //x.printGrid();
         //Client.grid.printGrid();
-        Client.messagePanel.grid = x;
-        Client.messagePanel.repaint();
+        //Client.messagePanel.grid = x;
+        //Client.messagePanel.repaint();
+        Client.getInstance().messagePanel.grid = x;
+        Client.getInstance().messagePanel.repaint();
 
         Client.getInstance().pinPanel.updateDimensions(x.width, x.height);
 

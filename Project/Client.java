@@ -7,7 +7,7 @@ public class Client {
 
 	//For updating the message board
     static Grid grid = null;
-    static MessagePanel messagePanel = new MessagePanel(grid);
+    MessagePanel messagePanel = new MessagePanel(grid);
 
     PinPanel pinPanel;
     PostPanel postPanel;

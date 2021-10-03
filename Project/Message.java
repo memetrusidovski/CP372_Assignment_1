@@ -2,7 +2,7 @@
 import java.io.Serializable;
 
 public class Message implements Serializable {
-    
+
 	private static final long serialVersionUID = 5183962720651437962L;
 	String message = null;
     String color;
@@ -32,6 +32,15 @@ public class Message implements Serializable {
         this.y = y;
         this.width = width;
         this.height = height;
+    }
+
+    public Message(String message, int x, int y, int width, int height, String color) {
+        this.message = message;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
     }
 
     public String getMessage(){

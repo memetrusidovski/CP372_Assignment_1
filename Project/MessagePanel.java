@@ -7,7 +7,7 @@ public class MessagePanel extends JPanel {
 
 	private static final long serialVersionUID = 3846802518284566285L;
 
-    public int[] colour = { 100, 100, 100 };
+    public int[] colour = { 0, 0, 0 };//The Font Colour
     int x = 50;
     int y = 50;
     int width = 50;
@@ -17,7 +17,12 @@ public class MessagePanel extends JPanel {
 
     Map<String, Color> colorMap = Map.ofEntries(Map.entry("BLUE", Color.BLUE),
         Map.entry( "BLACK", Color.BLACK),
-        Map.entry( "ORANGE", Color.ORANGE));
+        Map.entry( "ORANGE", Color.ORANGE),
+        Map.entry( "RED", Color.RED),
+        Map.entry( "YELLOW", Color.YELLOW),
+        Map.entry( "WHITE", Color.WHITE),
+        Map.entry( "GREEN", Color.GREEN),
+        Map.entry( "CYAN", Color.CYAN));
 
     MessagePanel(Grid grid){
         this.grid = grid;
@@ -34,23 +39,27 @@ public class MessagePanel extends JPanel {
         //gr.setColor(new Color(125, 167, 116));
 
         //Print Testing
-        for(int x = this.x; x< this.x + this.width; x+=1)
+        /*for(int x = this.x; x< this.x + this.width; x+=1)
             for(int y = this.y; y< this.y + this.height; y+=1){
                 gr.setColor(Color.getColor("100"));
                 gr.fillRect(x, y, 10, 10);
                 gr.setColor(new Color(this.colour[0], this.colour[1], this.colour[2]));
                 gr.drawString(this.grid != null ? this.grid.messageStack.get(0).message : this.message, this.x,this.y);
-            }
+            }*/
 
 
         //Print All Messages
         if(this.grid != null)
         for(Message m: this.grid.messageStack){
+            System.out.println(m.color);
+            gr.setColor(colorMap.get(m.color));
 
+            gr.fillRect(m.x * 10, m.y * 10, m.height * 10, m.width * 10);
 
-            gr.setColor(colorMap.get("BLUE"));
-
-            gr.fillRect(m.x, m.y, m.height, m.width);
+            //Draw Message
+            gr.setColor(new Color(this.colour[0], this.colour[1], this.colour[2]));
+            gr.setFont(new Font("Comic Sans MS", Font.BOLD, m.width));
+            gr.drawString(m.message, m.x * 10, (m.y * 10) + 10);
         }
 
 
