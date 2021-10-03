@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class ClearPanel extends JPanel {
 
@@ -21,6 +22,44 @@ public class ClearPanel extends JPanel {
 		JButton shakeButton = new JButton("Shake");
 		JButton dcButton	= new JButton("Disconnect");
 		
+		clearButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Request request = new Request(RequestCommand.CLEAR);
+				try {
+					Client.getInstance().connection.send(request);
+				}
+				catch (IllegalStateException e1) {
+					JOptionPane.showMessageDialog(clearButton.getRootPane(), "We couldn't clear the board because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (ClassNotFoundException | IOException e2) {
+					JOptionPane.showMessageDialog(clearButton.getRootPane(), "We ran into a problem clearing the board", "An Error Occured", JOptionPane.ERROR_MESSAGE);
+					e2.printStackTrace();
+				}
+			}
+			
+		});
+		
+		shakeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Request request = new Request(RequestCommand.SHAKE);
+				try {
+					Client.getInstance().connection.send(request);
+				}
+				catch (IllegalStateException e1) {
+					JOptionPane.showMessageDialog(clearButton.getRootPane(), "We couldn't shake the board because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (ClassNotFoundException | IOException e2) {
+					JOptionPane.showMessageDialog(clearButton.getRootPane(), "We ran into a problem shaking the board", "An Error Occured", JOptionPane.ERROR_MESSAGE);
+					e2.printStackTrace();
+				}
+			}
+			
+		});
+		
 		dcButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -28,6 +67,7 @@ public class ClearPanel extends JPanel {
 				try {
 					Client.getInstance().connection.disconnect();
 				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(clearButton.getRootPane(), "We ran into a problem disconnecting", "An Error Occured", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			}
