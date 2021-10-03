@@ -51,7 +51,6 @@ public class MessagePanel extends JPanel {
         //Print All Messages
         if(this.grid != null)
         for(Message m: this.grid.messageStack){
-            System.out.println(m.color);
             gr.setColor(colorMap.get(m.color));
 
             gr.fillRect(m.x * 10, m.y * 10, m.height * 10, m.width * 10);

@@ -12,6 +12,9 @@ public class Client {
     PinPanel pinPanel;
     PostPanel postPanel;
     GetPanel getPanel;
+
+    JFrame frame;
+
     final Connection connection = new Connection();
 
     public static void main(String argv[]) throws Exception {
@@ -27,7 +30,7 @@ public class Client {
     	String st = "Google";
 
         //Set up Main Frame
-        JFrame frame = new JFrame("Chat Client");
+        frame = new JFrame("Chat Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 1000);
         frame.setLayout(new BorderLayout());
@@ -45,6 +48,11 @@ public class Client {
         controls.add("Get",getPanel);
         controls.add("Pin/Unpin",pinPanel);
         controls.add("Clear/Shake",clearPanel);
+
+        controls.addChangeListener((e)->{
+            postPanel.validate();
+            postPanel.repaint();
+        });
 
         //Adding Components to the frame.
         frame.add(controls,BorderLayout.WEST);

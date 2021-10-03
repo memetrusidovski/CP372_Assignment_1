@@ -1,11 +1,14 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class PostPanel extends JPanel {
 
 	private static final long serialVersionUID = -2494723166396755145L;
     Grid grid;
+    JComboBox petList;
 
-	public PostPanel() {
+    public PostPanel() {
+        System.out.println("APPLE");
 	    this.initUI();
 	}
 
@@ -21,12 +24,11 @@ public class PostPanel extends JPanel {
 
 
 
-        String[] petStrings = Client.grid == null ? new String[]{"No Connection"} : new String[]{"connection"};
+        //String[] petStrings = Client.grid == null ? new String[]{"No Connection"} : new String[]{"connection"};
 
         //if(Client.grid != null)
-            System.out.println("BANANA");
 
-        JComboBox petList = new JComboBox(petStrings);
+        petList = new JComboBox();
         petList.setSelectedIndex(0);
 
         add(petList);
@@ -35,5 +37,9 @@ public class PostPanel extends JPanel {
             System.out.println(petList.getSelectedIndex());
         }));
 	}
+
+    public void paint() {
+	    this.initUI();
+    }
 
 }
