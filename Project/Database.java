@@ -11,6 +11,7 @@ public class Database {
 
     public Database(int width, int height, ArrayList<String> colors){
         this.grid = new Grid(width, height);
+        this.grid.colors = colors;
         this.boardHeight = height;
         this.boardWidth = width;
         this.colors = colors;

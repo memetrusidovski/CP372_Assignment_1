@@ -1,4 +1,5 @@
 
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -30,10 +31,17 @@ public class Service implements Runnable {
 
     //Do the request(Business Logic)
     private void processRequest() throws Exception {
+        ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
+
+        Request x = (Request) inputStream.readObject();
+
+        if(x.getCommand() == RequestCommand.CONNECTED){
+
         this.database.grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
         this.database.grid.setMessage(new Message("other message", 5, 5,10,10, "CYAN"));
 
         //this.database.grid.setMessage(new Message("BIG message", 30, 30,100,100));
+
 
         this.newClientConnected();
 
@@ -43,7 +51,19 @@ public class Service implements Runnable {
         //sendAllMessages();
         this.addPin(2,2);
         this.shake();
-        this.database.grid.printGrid();
+        //this.database.grid.printGrid();
+        }
+        else if(x.getCommand() == RequestCommand.POST){
+            Message m = new Message(x.getMessage(), 3, 3,10,10, "GREEN");
+
+            this.database.grid.setMessage(m);
+
+            ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+            outputStream.writeObject(m);
+
+        }
+        else
+            System.out.println("STUCK>>>");
 
     }
 
@@ -62,6 +82,8 @@ public class Service implements Runnable {
         //outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
         outputStream.writeObject(this.database.grid);
         //outputStream.writeObject(this.database.messageStack);
+        outputStream.close();
+
     }
 
     public void addPin(int x, int y){

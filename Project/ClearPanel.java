@@ -50,8 +50,10 @@ public class ClearPanel extends JPanel {
 					Client.getInstance().connection.send(request);
 				}
 				catch (IllegalStateException e1) {
+					JOptionPane.showMessageDialog(shakeButton.getRootPane(), "We couldn't shake the board because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (ClassNotFoundException | IOException e2) {
+					JOptionPane.showMessageDialog(shakeButton.getRootPane(), "We ran into a problem shaking the board", "An Error Occured", JOptionPane.ERROR_MESSAGE);
 					e2.printStackTrace();
 				}
 			}
@@ -65,6 +67,7 @@ public class ClearPanel extends JPanel {
 				try {
 					Client.getInstance().connection.disconnect();
 				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(dcButton.getRootPane(), "We ran into a problem disconnecting", "An Error Occured", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			}

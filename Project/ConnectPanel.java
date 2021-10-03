@@ -36,7 +36,7 @@ public class ConnectPanel extends JPanel {
                 exception.printStackTrace();
             }
 
-            Client.getInstance().postPanel.repaint();
+            //Client.getInstance().postPanel.repaint();
             label.setText(this.s);
         });
 

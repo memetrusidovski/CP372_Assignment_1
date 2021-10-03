@@ -3,13 +3,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Grid implements Serializable {
-	
+
 	private static final long serialVersionUID = -7500131554836560740L;
 	public int width;
     public int height;
     public int pinCount;
     public ArrayList<ArrayList<GridCell>> grid = new ArrayList<ArrayList<GridCell>>();
     public ArrayList<Message> messageStack = new ArrayList<Message>();
+    public ArrayList<String> colors;
 
     public Grid(int width, int height) {
         this.width = width;

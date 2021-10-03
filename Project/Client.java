@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
 
 public class Client {
 
@@ -8,6 +8,8 @@ public class Client {
 	//For updating the message board
     static Grid grid = null;
     MessagePanel messagePanel = new MessagePanel(grid);
+    static String host;
+    static int port;
 
     PinPanel pinPanel;
     PostPanel postPanel;
@@ -40,6 +42,7 @@ public class Client {
         			 getPanel	  = new GetPanel();
         			 pinPanel	  = new PinPanel();
         ClearPanel	 clearPanel	  = new ClearPanel();
+
 
         JTabbedPane controls = new JTabbedPane(JTabbedPane.LEFT);
 

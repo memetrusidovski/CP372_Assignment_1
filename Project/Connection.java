@@ -15,6 +15,12 @@ public class Connection {
 			socket.close();
 		}
 		socket = new Socket(host,port);
+		Client.host = host;
+		Client.port = port;
+
+		//Send the request for Grid
+        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+        outputStream.writeObject(new Request(RequestCommand.CONNECTED));
 
 		ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 
@@ -28,7 +34,8 @@ public class Connection {
         Client.getInstance().messagePanel.grid = x;
         Client.getInstance().messagePanel.repaint();
 
-        this.addColorsToPost();
+
+        this.addColorsToPost(x.colors);
 
 
         Client.getInstance().pinPanel.updateDimensions(x.width, x.height);
@@ -36,10 +43,10 @@ public class Connection {
         return x;
 	}
 
-	public void addColorsToPost(){
-        Client.getInstance().postPanel.petList.addItem(new String("Red"));
-        Client.getInstance().postPanel.petList.addItem(new String("Blue"));
-        Client.getInstance().postPanel.petList.addItem(new String("Green"));
+	public void addColorsToPost(ArrayList<String> lst){
+	    for(String s: lst)
+            Client.getInstance().postPanel.colorList.addItem(s);
+
         Client.getInstance().postPanel.revalidate();
         Client.getInstance().postPanel.repaint();
     }
@@ -54,15 +61,23 @@ public class Connection {
 
 	public Object send(Request request) throws IllegalStateException, IOException, ClassNotFoundException {
 
+        Object obj;
 		if(socket == null || socket.isClosed()) {
 			throw new IllegalStateException("Not connected");
 		}
-		ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-		ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+		else if(request.getCommand() == RequestCommand.POST) {
+            Socket s = new Socket("localhost", 5555);
 
-		outputStream.writeObject(request);
+            ObjectOutputStream outputStream = new ObjectOutputStream(s.getOutputStream());
+            outputStream.writeObject(request);
 
-		Object obj = inputStream.readObject();
+            ObjectInputStream inputStream = new ObjectInputStream(s.getInputStream());
+            obj = inputStream.readObject();
+        }
+		else{
+		    obj = null;
+        }
+
 		return obj;
 
 	}

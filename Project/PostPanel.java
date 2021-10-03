@@ -1,11 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class PostPanel extends JPanel {
 
 	private static final long serialVersionUID = -2494723166396755145L;
     Grid grid;
-    JComboBox petList;
+    JComboBox colorList;
 
     public PostPanel() {
         System.out.println("APPLE");
@@ -13,6 +14,8 @@ public class PostPanel extends JPanel {
 	}
 
 	private void initUI() {
+        GridLayout experimentLayout = new GridLayout(0,2);
+
         JLabel label 	= new JLabel("Message: ");
         JTextField text = new JTextField(10);
 
@@ -24,18 +27,30 @@ public class PostPanel extends JPanel {
 
 
 
-        //String[] petStrings = Client.grid == null ? new String[]{"No Connection"} : new String[]{"connection"};
+        colorList = new JComboBox();
+        //petList.setSelectedIndex(0);
 
-        //if(Client.grid != null)
+        add(colorList);
 
-        petList = new JComboBox();
-        petList.setSelectedIndex(0);
-
-        add(petList);
-
-        petList.addActionListener((e -> {
-            System.out.println(petList.getSelectedIndex());
+        colorList.addActionListener((e -> {
+            System.out.println(colorList.getSelectedIndex());
         }));
+
+        send.addActionListener((e) -> {
+            try {
+                Message m =(Message) Client.getInstance().connection.send(new Request(RequestCommand.POST, text.getText() == "" ? "????" : text.getText()));
+                System.out.println(m.message);
+
+
+                Client.getInstance().messagePanel.grid.messageStack.add(m);
+                Client.getInstance().messagePanel.repaint();
+
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+        });
 	}
 
     public void paint() {
