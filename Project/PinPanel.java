@@ -1,10 +1,14 @@
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.GridBagConstraints;
 
 public class PinPanel extends JPanel {
@@ -36,6 +40,48 @@ public class PinPanel extends JPanel {
 		
 		JButton pinButton 	= new JButton("Pin");
 		JButton unpinButton = new JButton("Unpin");
+		
+		pinButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int x = xModel.getNumber().intValue();
+				int y = yModel.getNumber().intValue();
+				Request request = new Request(RequestCommand.PIN,x,y);
+				try {
+					Client.getInstance().connection.send(request);
+				}
+				catch (IllegalStateException e1) {
+					JOptionPane.showMessageDialog(pinButton.getRootPane(), "We couldn't place the pin because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (ClassNotFoundException | IOException e2) {
+					JOptionPane.showMessageDialog(pinButton.getRootPane(), "We ran into a problem putting a pin in "+x+","+y, "An Error Occured", JOptionPane.ERROR_MESSAGE);
+					e2.printStackTrace();
+				}
+			}
+			
+		});
+		
+		unpinButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int x = xModel.getNumber().intValue();
+				int y = yModel.getNumber().intValue();
+				Request request = new Request(RequestCommand.UNPIN,x,y);
+				try {
+					Client.getInstance().connection.send(request);
+				}
+				catch (IllegalStateException e1) {
+					JOptionPane.showMessageDialog(pinButton.getRootPane(), "We couldn't remove the pin because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (ClassNotFoundException | IOException e2) {
+					JOptionPane.showMessageDialog(pinButton.getRootPane(), "We ran into a problem removing the pin at "+x+","+y, "An Error Occured", JOptionPane.ERROR_MESSAGE);
+					e2.printStackTrace();
+				}
+			}
+			
+		});
 		
 		setLayout(new GridBagLayout());
 		
