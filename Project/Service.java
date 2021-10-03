@@ -30,8 +30,8 @@ public class Service implements Runnable {
 
     //Do the request(Business Logic)
     private void processRequest() throws Exception {
-        this.database.grid.setMessage(new Message("message", 2, 2,2,2));
-        this.database.grid.setMessage(new Message("other message", 5, 5,10,10));
+        this.database.grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
+        this.database.grid.setMessage(new Message("other message", 5, 5,10,10, "CYAN"));
 
         //this.database.grid.setMessage(new Message("BIG message", 30, 30,100,100));
 

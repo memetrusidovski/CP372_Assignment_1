@@ -43,7 +43,7 @@ public class ConnectPanel extends JPanel {
         // For testing
         reset.addActionListener( (e)->{
         	//Client.getInstance().grid.printGrid();
-            Client.messagePanel.repaint();
+            //Client.messagePanel.repaint();
         });
 
         add(label); // Components Added using Flow Layout
