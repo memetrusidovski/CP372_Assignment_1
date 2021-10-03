@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Connection {
@@ -31,11 +32,26 @@ public class Connection {
 	}
 
 	public void disconnect() throws IOException {
-
-		if(!socket.isClosed()) {
+		
+		if(socket != null && !socket.isClosed()) {
 			socket.close();
 		}
 
 	}
-
+	
+	public Object send(Request request) throws IllegalStateException, IOException, ClassNotFoundException {
+		
+		if(socket == null || socket.isClosed()) {
+			throw new IllegalStateException("Not connected");
+		}
+		ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+		ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+		
+		outputStream.writeObject(request);
+		
+		Object obj = inputStream.readObject();
+		return obj;
+		
+	}
+	
 }
