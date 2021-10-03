@@ -26,7 +26,7 @@ public class PostPanel extends JPanel {
         //if(Client.grid != null)
             System.out.println("BANANA");
 
-        JComboBox petList = new JComboBox(petStrings);
+        JComboBox<String> petList = new JComboBox<String>(petStrings);
         petList.setSelectedIndex(0);
 
         add(petList);
