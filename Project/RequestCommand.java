@@ -7,7 +7,6 @@ public enum RequestCommand {
     CLEAR,
     SHAKE,
     PIN,
-    UNPIN,
-    ERROR
+    UNPIN
 	
 }
