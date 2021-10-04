@@ -8,8 +8,8 @@ public class Client {
 	//For updating the message board
     Grid grid = null;
     MessagePanel messagePanel = new MessagePanel(grid);
-    String host;
-    int port;
+    static String host;
+    static int port;
 
     PinPanel pinPanel;
     PostPanel postPanel;
