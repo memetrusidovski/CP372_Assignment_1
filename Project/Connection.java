@@ -61,9 +61,22 @@ public class Connection {
 		if(socket == null || socket.isClosed()) {
 			throw new IllegalStateException("Not connected");
 		}
-        outputStream.writeObject(request);
+        //outputStream.writeObject(request);
 
-        obj = inputStream.readObject();
+        //obj = inputStream.readObject();
+
+		else if(request.getCommand() == RequestCommand.POST) {
+            Socket s = new Socket(Client.host, Client.port);
+
+            ObjectOutputStream outputStream = new ObjectOutputStream(s.getOutputStream());
+            outputStream.writeObject(request);
+
+            ObjectInputStream inputStream = new ObjectInputStream(s.getInputStream());
+            obj = inputStream.readObject();
+        }
+		else{
+		    obj = null;
+        }
 
 		return obj;
 
