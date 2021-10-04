@@ -58,7 +58,14 @@ public class PostPanel extends JPanel {
         JButton send = new JButton("Send");
         send.addActionListener((e) -> {
             try {
-                Message m =(Message) Client.getInstance().connection.send(new Request(RequestCommand.POST, text.getText() == "" ? "????" : text.getText()));
+            	String msg = text.getText() == "" ? "????" : text.getText();
+            	String color = (String) colorList.getSelectedItem();
+            	int x = xModel.getNumber().intValue();
+            	int y = yModel.getNumber().intValue();
+            	int width = widthModel.getNumber().intValue();
+            	int height = heightModel.getNumber().intValue();
+            	Request request = new Request(RequestCommand.POST, x, y, width, height, color, msg);
+                Message m =(Message) Client.getInstance().connection.send(request);
                 System.out.println(m.message);
 
 
