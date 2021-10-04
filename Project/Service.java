@@ -30,9 +30,9 @@ public class Service implements Runnable {
 
     //Do the request(Business Logic)
     private void processRequest() throws Exception {
-        /*ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
+        ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
-        Request x = (Request) inputStream.readObject();
+        Request x = (Request) inputStream.readObject();/*
 
         if(x.getCommand() == RequestCommand.CONNECTED){
 
