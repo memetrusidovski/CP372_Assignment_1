@@ -67,12 +67,7 @@ public class ClearPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Client.getInstance().connection.disconnect();
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(dcButton.getRootPane(), "We ran into a problem disconnecting", "An Error Occured", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
+				Client.getInstance().connection.disconnect();
 			}
 			
 		});
