@@ -57,21 +57,26 @@ public class Service implements Runnable {
 				    //this.database.grid.printGrid();
 					break;
 				case GET:
+					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
 					break;
 				case PIN:
+					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
 					break;
 				case POST:
-					Message m = new Message(x.getMessage(), 3, 3,10,10, "GREEN");
+					Message m = new Message(x.getMessage(), x.getX(), x.getY(),x.getWidth(),x.getHeight(), x.getColor().toUpperCase());
 					System.out.println(m.message);
 			        this.database.grid.setMessage(m);
 			        outputStream.writeObject(m);
 					break;
 				case SHAKE:
+					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
 					break;
 				case UNPIN:
+					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
 					break;
 				default:
 					System.out.println("STUCK>>>");
+					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
 					break;
 			    }
 		    }
