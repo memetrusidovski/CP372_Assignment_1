@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -8,16 +9,14 @@ import java.util.List;
 public class Service implements Runnable {
     Database database;
     Socket connection;
-    Request request;
+    ObjectInputStream inputStream;
+    ObjectOutputStream outputStream;
 
     public Service(Database database, Socket connection) throws Exception{
         this.database = database;
         this.connection = connection;
-    }
-    public Service(Database database, Socket connection, Request request) throws Exception{
-        this.database = database;
-        this.connection = connection;
-        this.request = request;
+        inputStream = new ObjectInputStream(connection.getInputStream());
+        outputStream = new ObjectOutputStream(connection.getOutputStream());
     }
 
     //Start a thread to complete the service
@@ -31,45 +30,62 @@ public class Service implements Runnable {
 
     //Do the request(Business Logic)
     private void processRequest() throws Exception {
-        ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
 
-        Request x = (Request) inputStream.readObject();
-
-        if(x.getCommand() == RequestCommand.CONNECTED){
-
-        this.database.grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
-        this.database.grid.setMessage(new Message("other message", 5, 5,10,10, "CYAN"));
-
-        //this.database.grid.setMessage(new Message("BIG message", 30, 30,100,100));
-
-
-        this.newClientConnected();
-
-        //sample messages
-        //this.newMessage("5;5;10;10!$This is a sample message");
-        //this.newMessage("1;2;2;2!$Hello Person");
-        //sendAllMessages();
-        this.addPin(2,2);
-        this.shake();
-        //this.database.grid.printGrid();
+        try {
+		    while(!connection.isClosed()) {
+		    	System.out.println("Waiting for request");
+			    Request x = (Request) inputStream.readObject();
+			    System.out.println("Recieved request for "+x.getCommand().name());
+			    switch(x.getCommand()) {
+				case CLEAR:
+					break;
+				case CONNECTED:
+					this.database.grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
+				    this.database.grid.setMessage(new Message("other message", 5, 5,10,10, "CYAN"));
+				
+				    //this.database.grid.setMessage(new Message("BIG message", 30, 30,100,100));
+				
+				
+				    this.newClientConnected();
+				
+				    //sample messages
+				    //this.newMessage("5;5;10;10!$This is a sample message");
+				    //this.newMessage("1;2;2;2!$Hello Person");
+				    //sendAllMessages();
+				    this.addPin(2,2);
+				    this.shake();
+				    //this.database.grid.printGrid();
+					break;
+				case GET:
+					break;
+				case PIN:
+					break;
+				case POST:
+					Message m = new Message(x.getMessage(), 3, 3,10,10, "GREEN");
+					System.out.println(m.message);
+			        this.database.grid.setMessage(m);
+			        outputStream.writeObject(m);
+					break;
+				case SHAKE:
+					break;
+				case UNPIN:
+					break;
+				default:
+					System.out.println("STUCK>>>");
+					break;
+			    }
+		    }
         }
-        else if(x.getCommand() == RequestCommand.POST){
-            Message m = new Message(x.getMessage(), 3, 3,10,10, "GREEN");
-
-            this.database.grid.setMessage(m);
-
-            ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
-            outputStream.writeObject(m);
-
+        catch (IOException e) {
         }
-        else
-            System.out.println("STUCK>>>");
-
+        finally {
+        	System.out.println("Someone disconnected");
+        }
+        
     }
 
     //When a client first connects give them the data needed to create their board
     public void newClientConnected() throws Exception{
-        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
 
         //Get the Grid details
         String x = String.valueOf(this.database.boardWidth);
@@ -82,7 +98,6 @@ public class Service implements Runnable {
         //outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
         outputStream.writeObject(this.database.grid);
         //outputStream.writeObject(this.database.messageStack);
-        outputStream.close();
 
     }
 
@@ -115,7 +130,6 @@ public class Service implements Runnable {
     }
 
     public void sendAllMessages() throws Exception{
-        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
 
         String send = "[";
         for (Message s : this.database.messageStack) {
@@ -144,7 +158,6 @@ public class Service implements Runnable {
     }
 
     private void sendGrid() throws Exception{
-        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
 
         //outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
         outputStream.writeObject(this.database.grid);

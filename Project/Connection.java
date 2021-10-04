@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,6 +7,8 @@ import java.util.ArrayList;
 public class Connection {
 
 	private Socket socket = null;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 
 	public Grid connect(String host, int port) throws IOException, ClassNotFoundException {
 
@@ -15,22 +16,17 @@ public class Connection {
 			socket.close();
 		}
 		socket = new Socket(host,port);
-		Client.host = host;
-		Client.port = port;
+		Client.getInstance().host = host;
+		Client.getInstance().port = port;
 
 		//Send the request for Grid
-        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+        outputStream = new ObjectOutputStream(socket.getOutputStream());
         outputStream.writeObject(new Request(RequestCommand.CONNECTED));
 
-		ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+		inputStream = new ObjectInputStream(socket.getInputStream());
 
         Grid x = (Grid) inputStream.readObject();
-        //Client.getInstance().grid = x;
-        Client.grid = x;
-        //x.printGrid();
-        //Client.grid.printGrid();
-        //Client.messagePanel.grid = x;
-        //Client.messagePanel.repaint();
+        Client.getInstance().grid = x;
         Client.getInstance().messagePanel.grid = x;
         Client.getInstance().messagePanel.repaint();
 
@@ -44,9 +40,9 @@ public class Connection {
 	}
 
 	public void addColorsToPost(ArrayList<String> lst){
-	    for(String s: lst)
+	    for(String s: lst) {
             Client.getInstance().postPanel.colorList.addItem(s);
-
+	    }
         Client.getInstance().postPanel.revalidate();
         Client.getInstance().postPanel.repaint();
     }
@@ -65,18 +61,9 @@ public class Connection {
 		if(socket == null || socket.isClosed()) {
 			throw new IllegalStateException("Not connected");
 		}
-		else if(request.getCommand() == RequestCommand.POST) {
-            Socket s = new Socket("localhost", 5555);
+        outputStream.writeObject(request);
 
-            ObjectOutputStream outputStream = new ObjectOutputStream(s.getOutputStream());
-            outputStream.writeObject(request);
-
-            ObjectInputStream inputStream = new ObjectInputStream(s.getInputStream());
-            obj = inputStream.readObject();
-        }
-		else{
-		    obj = null;
-        }
+        obj = inputStream.readObject();
 
 		return obj;
 

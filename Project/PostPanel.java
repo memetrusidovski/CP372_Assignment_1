@@ -6,7 +6,7 @@ public class PostPanel extends JPanel {
 
 	private static final long serialVersionUID = -2494723166396755145L;
     Grid grid;
-    JComboBox colorList;
+    JComboBox<String> colorList;
 
     public PostPanel() {
         System.out.println("APPLE");
@@ -27,7 +27,7 @@ public class PostPanel extends JPanel {
 
 
 
-        colorList = new JComboBox();
+        colorList = new JComboBox<String>();
         //petList.setSelectedIndex(0);
 
         add(colorList);

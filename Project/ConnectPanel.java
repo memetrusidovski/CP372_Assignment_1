@@ -1,8 +1,5 @@
 
 import javax.swing.*;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class ConnectPanel extends JPanel {
 
@@ -58,7 +55,7 @@ public class ConnectPanel extends JPanel {
     	int port = Integer.parseInt(this.port.getText());
         Grid x = Client.getInstance().connection.connect(host, port);
 
-        Client.grid = x;
+        Client.getInstance().grid = x;
 
         return "Grid Received";
     }

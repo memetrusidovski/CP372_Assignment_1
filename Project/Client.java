@@ -6,10 +6,10 @@ public class Client {
 	private static Client instance = null;
 
 	//For updating the message board
-    static Grid grid = null;
+    Grid grid = null;
     MessagePanel messagePanel = new MessagePanel(grid);
-    static String host;
-    static int port;
+    String host;
+    int port;
 
     PinPanel pinPanel;
     PostPanel postPanel;

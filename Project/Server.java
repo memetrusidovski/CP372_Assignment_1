@@ -33,10 +33,6 @@ public class Server {
         while (true) {
             Socket connection = server.accept();
 
-            //ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
-            //ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
-            //Request r = (Request) inputStream.readObject();
-
             System.out.println("Someone Connected");
 
             //Spin off the request into a service thread
