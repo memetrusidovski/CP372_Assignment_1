@@ -4,17 +4,17 @@ import java.io.Serializable;
 public class Message implements Serializable {
 
 	private static final long serialVersionUID = 5183962720651437962L;
-	String message = null;
-    String color;
+	private String message = null;
+    private String color;
 
     //is the message pinned
     boolean status = false;
     int pinCount = 0;
 
-    int x = 0;
-    int y = 0;
-    int width = 1;
-    int height = 1;
+    private int x = 0;
+    private int y = 0;
+    private int width = 1;
+    private int height = 1;
 
     public Message(String message){
         this.message = message;

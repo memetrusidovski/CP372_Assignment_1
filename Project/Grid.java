@@ -46,9 +46,9 @@ public class Grid implements Serializable {
 
         //GridCell c = this.getCell(getX, getY);
 
-        for (int y = getY; y > getY - message.height && y >=0; y--) {
+        for (int y = getY; y > getY - message.getHeight() && y >=0; y--) {
             //System.out.println("+++++++++");
-            for (int x = getX; x < getX + message.width && x <= this.width; x++) {
+            for (int x = getX; x < getX + message.getWidth() && x <= this.width; x++) {
                 //this.grid.get(x).get(y).hasPin = true;
                 this.grid.get(x).get(y).messagePointers.add(message);
                 //System.out.println("<<<<<<<<<<<<");
@@ -80,8 +80,8 @@ public class Grid implements Serializable {
         int getX = removeMessage.getX();
         int getY = removeMessage.getY();
 
-        for (int y = getY; y > getY - removeMessage.height && y >=0; y--) {
-            for (int x = getX; x < getX + removeMessage.width && x <= this.width; x++) {
+        for (int y = getY; y > getY - removeMessage.getHeight() && y >=0; y--) {
+            for (int x = getX; x < getX + removeMessage.getWidth() && x <= this.width; x++) {
                 this.grid.get(x).get(y).messagePointers.remove(removeMessage);
             }
         }

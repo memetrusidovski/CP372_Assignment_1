@@ -28,7 +28,7 @@ public class Connection {
         Grid x = (Grid) inputStream.readObject();
         Client.getInstance().grid = x;
         Client.getInstance().messagePanel.grid = x;
-        Client.getInstance().messagePanel.repaint();
+        Client.getInstance().frame.repaint();
 
 
         this.addColorsToPost(x.colors);

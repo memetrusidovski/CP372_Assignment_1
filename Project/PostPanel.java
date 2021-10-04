@@ -66,7 +66,7 @@ public class PostPanel extends JPanel {
             	int height = heightModel.getNumber().intValue();
             	Request request = new Request(RequestCommand.POST, x, y, width, height, color, msg);
                 Message m =(Message) Client.getInstance().connection.send(request);
-                System.out.println(m.message);
+                System.out.println(m.getMessage());
 
 
                 Client.getInstance().messagePanel.grid.messageStack.add(m);

@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,9 @@ public class Service implements Runnable {
 			    System.out.println("Recieved request for "+x.getCommand().name());
 			    switch(x.getCommand()) {
 				case CLEAR:
+					outputStream.writeObject(new Serializable() {
+						private static final long serialVersionUID = 8933877268367440958L;
+					}); //TODO Replace with actual response Object
 					break;
 				case CONNECTED:
 					this.database.grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
@@ -52,31 +56,38 @@ public class Service implements Runnable {
 				    //this.newMessage("5;5;10;10!$This is a sample message");
 				    //this.newMessage("1;2;2;2!$Hello Person");
 				    //sendAllMessages();
-				    this.addPin(2,2);
-				    this.shake();
 				    //this.database.grid.printGrid();
 					break;
 				case GET:
-					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
+					outputStream.writeObject(new Serializable() {
+						private static final long serialVersionUID = 8933877268367440958L;
+					}); //TODO Replace with actual response Object
 					break;
 				case PIN:
-					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
+					outputStream.writeObject(new Serializable() {
+						private static final long serialVersionUID = 8933877268367440958L;
+					}); //TODO Replace with actual response Object
 					break;
 				case POST:
 					Message m = new Message(x.getMessage(), x.getX(), x.getY(),x.getWidth(),x.getHeight(), x.getColor().toUpperCase());
-					System.out.println(m.message);
+					System.out.println(m.getMessage());
 			        this.database.grid.setMessage(m);
 			        outputStream.writeObject(m);
 					break;
 				case SHAKE:
-					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
+					this.shake();
+					outputStream.writeObject(this.database.grid);
 					break;
 				case UNPIN:
-					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
+					outputStream.writeObject(new Serializable() {
+						private static final long serialVersionUID = 8933877268367440958L;
+					}); //TODO Replace with actual response Object
 					break;
 				default:
 					System.out.println("STUCK>>>");
-					outputStream.writeObject(new Object()); //TODO Replace with actual response Object
+					outputStream.writeObject(new Serializable() {
+						private static final long serialVersionUID = 8933877268367440958L;
+					}); //TODO Replace with actual response Object
 					break;
 			    }
 		    }
@@ -116,29 +127,12 @@ public class Service implements Runnable {
     }
 
     //OLD
-    public void newMessage(String s){
-
-        //PARSE THE MESSAGE DETAILS
-        String[] parse = s.split("!\\$");
-        String[] sizing = parse[0].split(";");
-
-
-        if (sizing.length == 4) {
-            Message message = new Message(parse[1], Integer.valueOf(sizing[0]),
-                                    Integer.valueOf(sizing[1]), Integer.valueOf(sizing[2]),
-                                        Integer.valueOf(sizing[3]));
-
-            this.database.grid.setMessage(message);
-            this.database.messageStack.add(message);
-        }
-
-    }
 
     public void sendAllMessages() throws Exception{
 
         String send = "[";
         for (Message s : this.database.messageStack) {
-            send += "{" + s.message + "},";
+            send += "{" + s.getMessage() + "},";
             //outputStream.writeObject( s );
         }
 
@@ -147,14 +141,17 @@ public class Service implements Runnable {
 
 
 
-    public void shake() throws Exception {
+    public void shake() throws IndexOutOfBoundsException {
         int c = 0;
 
         List<Message> messages = new ArrayList<Message>(this.database.grid.messageStack);
 
         for (Message m: messages){
+        	System.out.println(m.pinCount);
             if (m.pinCount ==  0){
+            	System.out.println("Removing: "+m.getMessage());
                 Message removeMessage = this.database.grid.messageStack.remove(c);
+            	System.out.println(removeMessage.getMessage());
                 this.database.grid.removeMessage(removeMessage);
                 c--;
             }

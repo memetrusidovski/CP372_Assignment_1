@@ -51,14 +51,14 @@ public class MessagePanel extends JPanel {
         //Print All Messages
         if(this.grid != null)
         for(Message m: this.grid.messageStack){
-            gr.setColor(colorMap.get(m.color));
+            gr.setColor(colorMap.get(m.getColour()));
 
-            gr.fillRect(m.x * 10, m.y * 10, m.height * 10, m.width * 10);
+            gr.fillRect(m.getX() * 10, m.getY() * 10, m.getHeight() * 10, m.getWidth() * 10);
 
             //Draw Message
             gr.setColor(new Color(this.colour[0], this.colour[1], this.colour[2]));
-            gr.setFont(new Font("Comic Sans MS", Font.BOLD, m.width));
-            gr.drawString(m.message, m.x * 10, (m.y * 10) + 10);
+            gr.setFont(new Font("Comic Sans MS", Font.BOLD, m.getWidth()));
+            gr.drawString(m.getMessage(), m.getX() * 10, (m.getY() * 10) + 10);
         }
 
 
