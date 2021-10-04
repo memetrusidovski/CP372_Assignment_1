@@ -101,19 +101,9 @@ public class Service implements Runnable {
     }
 
     //When a client first connects give them the data needed to create their board
-    public void newClientConnected() throws Exception{
-
-        //Get the Grid details
-        String x = String.valueOf(this.database.boardWidth);
-        String y = String.valueOf(this.database.boardHeight);
-        String colors = "";
-        for(String s: this.database.colors){
-            colors+= " " + s;
-        }
-
-        //outputStream.writeObject("This is the board details " + x + ":" + y + ";" + colors);
+    private void newClientConnected() throws Exception{
+    	// Send the grid to the client
         outputStream.writeObject(this.database.grid);
-        //outputStream.writeObject(this.database.messageStack);
 
     }
 
