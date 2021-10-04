@@ -35,6 +35,7 @@ public class Connection {
 
 
         Client.getInstance().pinPanel.updateDimensions(x.width, x.height);
+        Client.getInstance().postPanel.updateDimensions(x.width, x.height);
 
         return x;
 	}

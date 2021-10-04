@@ -7,6 +7,10 @@ public class PostPanel extends JPanel {
 	private static final long serialVersionUID = -2494723166396755145L;
     Grid grid;
     JComboBox<String> colorList;
+    private SpinnerNumberModel xModel;
+	private SpinnerNumberModel yModel;
+	private SpinnerNumberModel widthModel;
+	private SpinnerNumberModel heightModel;
 
     public PostPanel() {
         System.out.println("APPLE");
@@ -14,31 +18,54 @@ public class PostPanel extends JPanel {
 	}
 
 	private void initUI() {
-        GridLayout experimentLayout = new GridLayout(0,2);
+        setLayout(new GridLayout(20,1));
 
+        JPanel messagePanel = new JPanel();
         JLabel label 	= new JLabel("Message: ");
         JTextField text = new JTextField(10);
+        messagePanel.add(label);
+        messagePanel.add(text);
+        
+        xModel = new SpinnerNumberModel(0, 0, 0, 1);
+		yModel = new SpinnerNumberModel(0, 0, 0, 1);
+		widthModel = new SpinnerNumberModel(1,1,null,1);
+		heightModel = new SpinnerNumberModel(1,1,null,1);
 
-        JButton send = new JButton("Send");
-
-        add(label);
-        add(text);
-        add(send);
-
-
+		JPanel positionPanel = new JPanel();
+		JLabel xLabel 	     = new JLabel("X:");
+		JSpinner xSpinner    = new JSpinner(xModel);
+		JLabel yLabel 	  = new JLabel("Y:");
+		JSpinner ySpinner = new JSpinner(yModel);
+		positionPanel.add(xLabel);
+		positionPanel.add(xSpinner);
+		positionPanel.add(yLabel);
+		positionPanel.add(ySpinner);
+		
+		JPanel sizePanel  	   = new JPanel();
+		JLabel widthLabel 	   = new JLabel("Width:");
+		JSpinner widthSpinner  = new JSpinner(widthModel);
+		JLabel heightLabel 	   = new JLabel("Height:");
+		JSpinner heightSpinner = new JSpinner(heightModel);
+		sizePanel.add(widthLabel);
+		sizePanel.add(widthSpinner);
+		sizePanel.add(heightLabel);
+		sizePanel.add(heightSpinner);
 
         colorList = new JComboBox<String>();
-        //petList.setSelectedIndex(0);
+        messagePanel.add(colorList);
 
-        add(colorList);
-
-        colorList.addActionListener((e -> {
-            System.out.println(colorList.getSelectedIndex());
-        }));
-
+        JPanel sendPanel = new JPanel();
+        JButton send = new JButton("Send");
         send.addActionListener((e) -> {
             try {
-                Message m =(Message) Client.getInstance().connection.send(new Request(RequestCommand.POST, text.getText() == "" ? "????" : text.getText()));
+            	String msg = text.getText() == "" ? "????" : text.getText();
+            	String color = (String) colorList.getSelectedItem();
+            	int x = xModel.getNumber().intValue();
+            	int y = yModel.getNumber().intValue();
+            	int width = widthModel.getNumber().intValue();
+            	int height = heightModel.getNumber().intValue();
+            	Request request = new Request(RequestCommand.POST, x, y, width, height, color, msg);
+                Message m =(Message) Client.getInstance().connection.send(request);
                 System.out.println(m.message);
 
 
@@ -51,10 +78,26 @@ public class PostPanel extends JPanel {
                 classNotFoundException.printStackTrace();
             }
         });
+        sendPanel.add(send);
+        
+        add(messagePanel);
+        add(positionPanel);
+        add(sizePanel);
+        add(sendPanel);
+        
 	}
 
-    public void paint() {
-	    this.initUI();
-    }
-
+	public void updateDimensions(int x, int y) throws IllegalArgumentException {
+		if(x < 0 || y < 0) {
+			throw new IllegalArgumentException("Dimensions of the grid can't be negative");
+		}
+		xModel.setMaximum(x);
+		yModel.setMaximum(y);
+	}
+	
+	public void resetDimensions() {
+		xModel.setMaximum(0);
+		yModel.setMaximum(0);
+	}
+	
 }
