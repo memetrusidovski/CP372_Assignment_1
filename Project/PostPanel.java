@@ -43,7 +43,7 @@ public class PostPanel extends JPanel {
 
 
                 Client.getInstance().messagePanel.grid.messageStack.add(m);
-                Client.getInstance().messagePanel.repaint();
+                Client.getInstance().frame.repaint();
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();

@@ -52,11 +52,6 @@ public class Client {
         controls.add("Pin/Unpin",pinPanel);
         controls.add("Clear/Shake",clearPanel);
 
-        controls.addChangeListener((e)->{
-            postPanel.validate();
-            postPanel.repaint();
-        });
-
         //Adding Components to the frame.
         frame.add(controls,BorderLayout.WEST);
         frame.add(messagePanel,BorderLayout.EAST);

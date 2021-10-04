@@ -40,11 +40,10 @@ public class Connection {
 	}
 
 	public void addColorsToPost(ArrayList<String> lst){
+		Client.getInstance().postPanel.colorList.removeAllItems();
 	    for(String s: lst) {
             Client.getInstance().postPanel.colorList.addItem(s);
 	    }
-        Client.getInstance().postPanel.revalidate();
-        Client.getInstance().postPanel.repaint();
     }
 
 	public void disconnect() throws IOException {
