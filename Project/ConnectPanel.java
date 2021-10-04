@@ -26,21 +26,18 @@ public class ConnectPanel extends JPanel {
         port.setText("5555");
 
         send.addActionListener( (e)->{
-            String x = null;
             try {
-                x = this.getData();
+            	this.getData();
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
 
-            //Client.getInstance().postPanel.repaint();
             label.setText(this.s);
         });
 
-        // For testing
         reset.addActionListener( (e)->{
-        	//Client.getInstance().grid.printGrid();
-            //Client.messagePanel.repaint();
+        	address.setText("localhost");
+            port.setText("5555");
         });
 
         add(label); // Components Added using Flow Layout
