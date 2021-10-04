@@ -31,22 +31,11 @@ public class Service implements Runnable {
 
     //Do the request(Business Logic)
     private void processRequest() throws Exception {
-        ObjectInputStream inputStream = new ObjectInputStream(connection.getInputStream());
-
-        Request x = (Request) inputStream.readObject();/*
-
-        if(x.getCommand() == RequestCommand.CONNECTED){
-
-        this.database.grid.setMessage(new Message("Message", 2, 2,2,2, "RED"));
-        this.database.grid.setMessage(new Message("Welcome Message", 5, 5,10,10, "CYAN"));
-
-        //this.database.grid.setMessage(new Message("BIG message", 30, 30,100,100));*/
-
-
+    	
         try {
 		    while(!connection.isClosed()) {
 		    	System.out.println("Waiting for request");
-			    //Request x = (Request) inputStream.readObject();
+			    Request x = (Request) inputStream.readObject();
 			    System.out.println("Recieved request for "+x.getCommand().name());
 			    switch(x.getCommand()) {
 				case CLEAR:
