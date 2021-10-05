@@ -92,6 +92,8 @@ public class GetPanel extends JPanel {
 			}
 			
 		});
+		controls.add(send);
+		
 		JButton getPins = new JButton("Get Pins");
 		getPins.addActionListener(new ActionListener() {
 
@@ -111,6 +113,7 @@ public class GetPanel extends JPanel {
 			}
 			
 		});
+		controls.add(getPins);
 		
 		add(controls);
 		add(resultsPanel);
