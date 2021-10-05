@@ -52,13 +52,9 @@ public class Database {
         return lst;
     }
 
-    public ArrayList<Message> searchMessagesByMulti(String[] args){
+    public ArrayList<Message> searchMessagesByMulti(String s, String colour, int x, int y){
         ArrayList<Message> lst = new ArrayList<Message>();
 
-        String s = args[0];
-        String colour = args[1];
-        int x = new Integer(args[2]);
-        int y = new Integer(args[3]);
 
         if( s != null)
             for(Message m: this.messageStack){
