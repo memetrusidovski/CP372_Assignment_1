@@ -21,6 +21,6 @@ public class Response {
         this.y = y;
     }
 
-    Response(Grid gird){ this.grid = grid; }
+    Response(Grid grid){ this.grid = grid; }
 
 }
