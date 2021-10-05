@@ -25,7 +25,7 @@ public class PostPanel extends JPanel {
         JTextField text = new JTextField(10);
         messagePanel.add(label);
         messagePanel.add(text);
-        
+
         xModel = new SpinnerNumberModel(0, 0, 0, 1);
 		yModel = new SpinnerNumberModel(0, 0, 0, 1);
 		widthModel = new SpinnerNumberModel(1,1,null,1);
@@ -40,7 +40,7 @@ public class PostPanel extends JPanel {
 		positionPanel.add(xSpinner);
 		positionPanel.add(yLabel);
 		positionPanel.add(ySpinner);
-		
+
 		JPanel sizePanel  	   = new JPanel();
 		JLabel widthLabel 	   = new JLabel("Width:");
 		JSpinner widthSpinner  = new JSpinner(widthModel);
@@ -65,7 +65,8 @@ public class PostPanel extends JPanel {
             	int width = widthModel.getNumber().intValue();
             	int height = heightModel.getNumber().intValue();
             	Request request = new Request(RequestCommand.POST, x, y, width, height, color, msg);
-                Message m =(Message) Client.getInstance().connection.send(request);
+                Response response = (Response) Client.getInstance().connection.send(request);
+            	Message m = response.getMessage();
                 System.out.println(m.getMessage());
 
 
@@ -82,12 +83,12 @@ public class PostPanel extends JPanel {
 			}
         });
         sendPanel.add(send);
-        
+
         add(messagePanel);
         add(positionPanel);
         add(sizePanel);
         add(sendPanel);
-        
+
 	}
 
 	public void updateDimensions(int x, int y) throws IllegalArgumentException {
@@ -97,10 +98,10 @@ public class PostPanel extends JPanel {
 		xModel.setMaximum(x);
 		yModel.setMaximum(y);
 	}
-	
+
 	public void resetDimensions() {
 		xModel.setMaximum(0);
 		yModel.setMaximum(0);
 	}
-	
+
 }

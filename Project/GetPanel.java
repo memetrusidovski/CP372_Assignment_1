@@ -29,11 +29,11 @@ public class GetPanel extends JPanel {
 	public GetPanel() {
 		this.initUI();
 	}
-	
+
 	private void initUI() {
-		
+
 		setLayout(new GridLayout(2,1));
-		
+
 		resultsLayout = new CardLayout();
 		resultsPanel = new JPanel(resultsLayout);
 		resultsPanel.add(new JPanel());
@@ -41,7 +41,7 @@ public class GetPanel extends JPanel {
 		resultsPanel.add(resultsCarousel);
 		xModel = new SpinnerNumberModel(0, 0, 0, 1);
 		yModel = new SpinnerNumberModel(0, 0, 0, 1);
-		
+
 		JPanel controls = new JPanel(new GridLayout(20,2));
 		controls.add(new JLabel("Refers to:"));
 		JTextField keyword = new JTextField();
@@ -59,7 +59,7 @@ public class GetPanel extends JPanel {
 		controls.add(anyY);
 		JSpinner ySpinner = new JSpinner(yModel);
 		controls.add(ySpinner);
-		
+
 		xSpinner.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -67,9 +67,9 @@ public class GetPanel extends JPanel {
 				anyX.setSelected(false);
 				anyY.setSelected(false);
 			}
-			
+
 		});
-		
+
 		ySpinner.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -77,9 +77,9 @@ public class GetPanel extends JPanel {
 				anyX.setSelected(false);
 				anyY.setSelected(false);
 			}
-			
+
 		});
-		
+
 		JButton send = new JButton("Submit");
 		send.addActionListener(new ActionListener() {
 
@@ -88,12 +88,13 @@ public class GetPanel extends JPanel {
 				int x = anyX.isSelected()?-1:xModel.getNumber().intValue();
 				int y = anyY.isSelected()?-1:yModel.getNumber().intValue();
 				String color = ((String)colorList.getSelectedItem()) == "Any Colour"?"":((String)colorList.getSelectedItem()).toUpperCase();
+
 				get(keyword.getText(),color,x,y);
 			}
-			
+
 		});
 		controls.add(send);
-		
+
 		JButton getPins = new JButton("Get Pins");
 		getPins.addActionListener(new ActionListener() {
 
@@ -101,7 +102,8 @@ public class GetPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Request request = new Request(RequestCommand.GET,"PINS");
 				try {
-					Object response = Client.getInstance().connection.send(request);
+					Response response = (Response) Client.getInstance().connection.send(request);
+					System.out.println(response.getPins());
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(getPins.getRootPane(), "We couldn't get the pins because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
@@ -111,18 +113,19 @@ public class GetPanel extends JPanel {
 					e2.printStackTrace();
 				}
 			}
-			
+
 		});
 		controls.add(getPins);
-		
+
 		add(controls);
 		add(resultsPanel);
 	}
-	
+
 	private void get(String refersTo, String color, int x, int y) {
 		Request request = new Request(RequestCommand.GET,x,y,color,refersTo);
 		try {
-			Object response = Client.getInstance().connection.send(request);
+			Response response = (Response) Client.getInstance().connection.send(request);
+			System.out.println(response.getMessagesList().get(0).getMessage());
 		}
 		catch (IllegalStateException e1) {
 			JOptionPane.showMessageDialog(this, "We couldn't get the messages because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
@@ -132,7 +135,7 @@ public class GetPanel extends JPanel {
 			e2.printStackTrace();
 		}
 	}
-	
+
 	public void updateDimensions(int x, int y) throws IllegalArgumentException {
 		if(x < 0 || y < 0) {
 			throw new IllegalArgumentException("Dimensions of the grid can't be negative");
@@ -140,10 +143,10 @@ public class GetPanel extends JPanel {
 		xModel.setMaximum(x);
 		yModel.setMaximum(y);
 	}
-	
+
 	public void resetDimensions() {
 		xModel.setMaximum(0);
 		yModel.setMaximum(0);
 	}
-	
+
 }

@@ -15,13 +15,13 @@ public class ClearPanel extends JPanel {
 	public ClearPanel() {
 		this.initUI();
 	}
-	
+
 	private void initUI() {
-		
+
 		JButton clearButton = new JButton("Clear");
 		JButton shakeButton = new JButton("Shake");
 		JButton dcButton	= new JButton("Disconnect");
-		
+
 		clearButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -38,16 +38,17 @@ public class ClearPanel extends JPanel {
 					e2.printStackTrace();
 				}
 			}
-			
+
 		});
-		
+
 		shakeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Request request = new Request(RequestCommand.SHAKE);
 				try {
-					Grid x = (Grid) Client.getInstance().connection.send(request);
+				    Response response = (Response) Client.getInstance().connection.send(request);
+					Grid x = response.getGrid();
 					Client.getInstance().grid = x;
 			        Client.getInstance().messagePanel.grid = x;
 			        Client.getInstance().frame.repaint();
@@ -60,31 +61,31 @@ public class ClearPanel extends JPanel {
 					e2.printStackTrace();
 				}
 			}
-			
+
 		});
-		
+
 		dcButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Client.getInstance().connection.disconnect();
 			}
-			
+
 		});
-		
+
 		setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(10, 0, 10, 0);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridy++;
-		
+
 		add(clearButton,gbc);
 		gbc.gridy++;
 		add(shakeButton,gbc);
 		gbc.gridy++;
 		add(dcButton,gbc);
-		
+
 	}
-	
+
 }

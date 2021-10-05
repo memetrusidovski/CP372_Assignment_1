@@ -17,7 +17,7 @@ public class Connection {
 		this.port = port;
 
 		//Send the request for Grid
-        Grid x = (Grid) this.send(new Request(RequestCommand.CONNECTED));
+        Grid x = this.send(new Request(RequestCommand.CONNECTED)).getGrid();
         Client.getInstance().grid = x;
         Client.getInstance().messagePanel.grid = x;
         Client.getInstance().frame.repaint();
@@ -49,18 +49,18 @@ public class Connection {
 
 	}
 
-	public Object send(Request request) throws IllegalStateException, IOException, ClassNotFoundException {
+	public Response send(Request request) throws IllegalStateException, IOException, ClassNotFoundException {
 
-        Object obj;
+        Response obj;
 		if(host == null || port <= 0) {
 			throw new IllegalStateException("Not connected");
 		}
 		Socket socket = new Socket(host,port);
 		ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-		
+
 		outputStream.writeObject(request);
-        obj = inputStream.readObject();
+        obj = (Response) inputStream.readObject();
         socket.close();
 
 		return obj;

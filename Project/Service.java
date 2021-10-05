@@ -40,14 +40,24 @@ public class Service implements Runnable {
 				this.database.grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
 			    this.database.grid.setMessage(new Message("other message", 5, 5,10,10, "CYAN"));
 
+
 			    // Send the grid to the client
-		        outputStream.writeObject(this.database.grid);
+		        outputStream.writeObject(new Response( this.database.grid ) );
+                //outputStream.close();
+                //connection.close();
+
+		        this.addPin(2,2);
 				break;
 			case GET:
-			    ArrayList<Message> messagesReturnList = this.searchMessages(x); //Send This Back to the user
+			    if(x.getMessage().compareTo("PINS") == 0){
 
+                    outputStream.writeObject(new Response(this.database.grid.pinLocations.get(0).toString()) );
+                }
+			    else {
+                    ArrayList<Message> messagesReturnList = this.searchMessages(x); //Send This Back to the user
 
-				outputStream.writeObject(new Response(messagesReturnList));
+                    outputStream.writeObject(new Response(messagesReturnList));
+                }
 
 				break;
 			case PIN:
@@ -116,15 +126,23 @@ public class Service implements Runnable {
     public ArrayList<Message> searchMessages(Request request){
         ArrayList<Message> lst = new ArrayList<Message>();
 
-        if(request.getX() == -1 && request.getY() == -1 && request.getColor() == "")
+        System.out.println("<><><><><>" + request.getColor());
+        if(request.getX() == -1 && request.getY() == -1 && request.getColor().isBlank() && request.getMessage().isBlank())
+            lst = this.database.grid.messageStack;
+        else if(request.getX() == -1 && request.getY() == -1 && request.getColor().isBlank())
             lst = this.database.searchMessagesByString(request.getMessage());
-        else if(request.getX() == -1 && request.getY() == -1 && request.getMessage() == "")
-            lst = this.database.searchMessagesByColour(request.getMessage());
-        else if(request.getColor() == "" && request.getMessage() == "")
+        else if(request.getX() == -1 && request.getY() == -1 && request.getMessage().isBlank()) {
+
+            lst = this.database.searchMessagesByColour(request.getColor());
+
+        }
+        else if(request.getColor().isBlank() && request.getMessage().isBlank())
             lst = this.database.searchMessagesByLocation(request.getX(), request.getY());
 
-        else
-            lst = this.database.searchMessagesByMulti(request.getMessage(), request.getColor(), request.getX() , request.getY() );
+        else {
+            lst = this.database.searchMessagesByMulti(request.getMessage(), request.getColor(), request.getX(), request.getY());
+            System.out.println("++++++++");
+        }
 
         return lst;
 

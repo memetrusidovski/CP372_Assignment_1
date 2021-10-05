@@ -25,7 +25,7 @@ public class Database {
     public ArrayList<Message> searchMessagesByString(String s){
         ArrayList<Message> lst = new ArrayList<Message>();
 
-        for(Message m: this.messageStack){
+        for(Message m: this.grid.messageStack){
             if(m.getMessage().contains(s)){
                 lst.add(m);
             }
@@ -42,8 +42,8 @@ public class Database {
     public ArrayList<Message> searchMessagesByColour(String colour){
         ArrayList<Message> lst = new ArrayList<Message>();
 
-        for(Message m: this.messageStack){
-            if(m.getColour() == colour){
+        for(Message m: this.grid.messageStack){
+            if(m.getColour().compareTo( colour ) == 0 ){
                 lst.add(m);
             }
         }
@@ -56,13 +56,13 @@ public class Database {
 
 
         if( s != null)
-            for(Message m: this.messageStack){
+            for(Message m: this.grid.messageStack){
                 if(m.getMessage().contains(s)){
                 lst.add(m);
             }
         }
         else
-            lst = this.messageStack;
+            lst = this.grid.messageStack;
 
 
         if(colour != null)
