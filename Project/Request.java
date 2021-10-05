@@ -20,6 +20,14 @@ public class Request implements Serializable {
     	this.command = command;
         this.message = message;
     }
+    
+    Request(RequestCommand command, int x, int y, String color, String message){
+    	this.command = command;
+        this.message = message;
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
 
     Request(RequestCommand command, int x, int y){
     	this.command = command;
