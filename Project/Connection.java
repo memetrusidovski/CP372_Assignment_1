@@ -27,14 +27,18 @@ public class Connection {
 
         Client.getInstance().pinPanel.updateDimensions(x.width, x.height);
         Client.getInstance().postPanel.updateDimensions(x.width, x.height);
+        Client.getInstance().getPanel.updateDimensions(x.width, x.height);
 
         return x;
 	}
 
 	public void addColorsToPost(ArrayList<String> lst){
 		Client.getInstance().postPanel.colorList.removeAllItems();
+		Client.getInstance().getPanel.colorList.removeAllItems();
+		Client.getInstance().getPanel.colorList.addItem("Any Colour");
 	    for(String s: lst) {
             Client.getInstance().postPanel.colorList.addItem(s);
+            Client.getInstance().getPanel.colorList.addItem(s);
 	    }
     }
 

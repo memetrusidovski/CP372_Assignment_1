@@ -34,8 +34,8 @@ public class PostPanel extends JPanel {
 		JPanel positionPanel = new JPanel();
 		JLabel xLabel 	     = new JLabel("X:");
 		JSpinner xSpinner    = new JSpinner(xModel);
-		JLabel yLabel 	  = new JLabel("Y:");
-		JSpinner ySpinner = new JSpinner(yModel);
+		JLabel yLabel 	     = new JLabel("Y:");
+		JSpinner ySpinner    = new JSpinner(yModel);
 		positionPanel.add(xLabel);
 		positionPanel.add(xSpinner);
 		positionPanel.add(yLabel);
