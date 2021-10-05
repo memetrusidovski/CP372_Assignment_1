@@ -11,6 +11,7 @@ public class Grid implements Serializable {
     public ArrayList<ArrayList<GridCell>> grid = new ArrayList<ArrayList<GridCell>>();
     public ArrayList<Message> messageStack = new ArrayList<Message>();
     public ArrayList<String> colors;
+    public ArrayList<int[][]> pinLocations;
 
     public Grid(int width, int height) {
         this.width = width;
@@ -72,6 +73,8 @@ public class Grid implements Serializable {
     }
 
     public void setPin(int x, int y) {
+        this.pinLocations.add( new int[][]{ {x}, {y} } );
+
         this.grid.get(y).get(x).hasPin = true;
     }
 
