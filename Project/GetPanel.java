@@ -103,7 +103,7 @@ public class GetPanel extends JPanel {
 				Request request = new Request(RequestCommand.GET,"PINS");
 				try {
 					Response response = (Response) Client.getInstance().connection.send(request);
-					System.out.println(response.getPins());
+					//System.out.println(response.getPins());
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(getPins.getRootPane(), "We couldn't get the pins because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
