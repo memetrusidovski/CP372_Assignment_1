@@ -39,14 +39,16 @@ public class Service implements Runnable {
 			case CONNECTED:
 				this.database.grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
 			    this.database.grid.setMessage(new Message("other message", 5, 5,10,10, "CYAN"));
-			
+
 			    // Send the grid to the client
 		        outputStream.writeObject(this.database.grid);
 				break;
 			case GET:
-				outputStream.writeObject(new Serializable() {
-					private static final long serialVersionUID = 8933877268367440958L;
-				}); //TODO Replace with actual response Object
+			    ArrayList<Message> messagesReturnList = this.searchMessages(x); //Send This Back to the user
+
+
+				outputStream.writeObject(new Response(messagesReturnList));
+
 				break;
 			case PIN:
 				outputStream.writeObject(new Serializable() {
@@ -61,7 +63,7 @@ public class Service implements Runnable {
 				break;
 			case SHAKE:
 				this.shake();
-				outputStream.writeObject(this.database.grid);
+				outputStream.writeObject(new Response(this.database.grid) );
 				break;
 			case UNPIN:
 				outputStream.writeObject(new Serializable() {
@@ -77,7 +79,7 @@ public class Service implements Runnable {
 	    }
     	System.out.println("Someone disconnected");
 
-        
+
     }
 
     public void addPin(int x, int y){
@@ -108,6 +110,23 @@ public class Service implements Runnable {
     }
 
     public void clear(){
+
+    }
+
+    public ArrayList<Message> searchMessages(Request request){
+        ArrayList<Message> lst = new ArrayList<Message>();
+
+        if(request.getX() == -1 && request.getY() == -1 && request.getColor() == "")
+            lst = this.database.searchMessagesByString(request.getMessage());
+        else if(request.getX() == -1 && request.getY() == -1 && request.getMessage() == "")
+            lst = this.database.searchMessagesByColour(request.getMessage());
+        else if(request.getColor() == "" && request.getMessage() == "")
+            lst = this.database.searchMessagesByLocation(request.getX(), request.getY());
+
+        else
+            lst = this.database.searchMessagesByMulti(request.getMessage(), request.getColor(), request.getX() , request.getY() );
+
+        return lst;
 
     }
 

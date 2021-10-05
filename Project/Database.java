@@ -51,13 +51,9 @@ public class Database {
         return lst;
     }
 
-    public ArrayList<Message> searchMessagesByMulti(String[] args){
+    public ArrayList<Message> searchMessagesByMulti(String s, String colour, int x, int y){
         ArrayList<Message> lst = new ArrayList<Message>();
 
-        String s = args[0];
-        String colour = args[1];
-        int x = Integer.parseInt(args[2]);
-        int y = Integer.parseInt(args[3]);
 
         if( s != null)
             for(Message m: this.messageStack){
