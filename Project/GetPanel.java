@@ -60,6 +60,24 @@ public class GetPanel extends JPanel {
 		JSpinner ySpinner = new JSpinner(yModel);
 		controls.add(ySpinner);
 
+		anyX.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				anyY.setSelected(anyX.isSelected());
+			}
+			
+		});
+		
+		anyY.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				anyX.setSelected(anyY.isSelected());
+			}
+			
+		});
+		
 		xSpinner.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -103,7 +121,7 @@ public class GetPanel extends JPanel {
 				Request request = new Request(RequestCommand.GET,"PINS");
 				try {
 					Response response = (Response) Client.getInstance().connection.send(request);
-					//System.out.println(response.getPins());
+					System.out.println(response.getPins());
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(getPins.getRootPane(), "We couldn't get the pins because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
@@ -125,7 +143,7 @@ public class GetPanel extends JPanel {
 		Request request = new Request(RequestCommand.GET,x,y,color,refersTo);
 		try {
 			Response response = (Response) Client.getInstance().connection.send(request);
-			System.out.println(response.getMessagesList().get(0).getMessage());
+			System.out.println(response.getMessagesList());
 		}
 		catch (IllegalStateException e1) {
 			JOptionPane.showMessageDialog(this, "We couldn't get the messages because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
