@@ -29,6 +29,7 @@ public class ConnectPanel extends JPanel {
             try {
             	this.getData();
             } catch (Exception exception) {
+            	JOptionPane.showMessageDialog(send.getRootPane(), "We couldn't connect to the server", "Connection Failed", JOptionPane.ERROR_MESSAGE);
                 exception.printStackTrace();
             }
 
