@@ -1,5 +1,4 @@
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class Database {
@@ -57,8 +56,8 @@ public class Database {
 
         String s = args[0];
         String colour = args[1];
-        int x = new Integer(args[2]);
-        int y = new Integer(args[3]);
+        int x = Integer.parseInt(args[2]);
+        int y = Integer.parseInt(args[3]);
 
         if( s != null)
             for(Message m: this.messageStack){
