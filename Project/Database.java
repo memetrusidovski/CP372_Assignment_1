@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Database {
@@ -21,5 +22,68 @@ public class Database {
         this.messageStack.add(message);
         this.grid.messageStack.add(message);
     }
+
+    public ArrayList<Message> searchMessagesByString(String s){
+        ArrayList<Message> lst = new ArrayList<Message>();
+
+        for(Message m: this.messageStack){
+            if(m.getMessage().contains(s)){
+                lst.add(m);
+            }
+        }
+        return lst;
+    }
+
+    public ArrayList<Message> searchMessagesByLocation(int x, int y){
+        ArrayList<Message> lst = grid.getCell(x, y).messagePointers;
+
+        return lst;
+    }
+
+    public ArrayList<Message> searchMessagesByColour(String colour){
+        ArrayList<Message> lst = new ArrayList<Message>();
+
+        for(Message m: this.messageStack){
+            if(m.getColour() == colour){
+                lst.add(m);
+            }
+        }
+
+        return lst;
+    }
+
+    public ArrayList<Message> searchMessagesByMulti(String[] args){
+        ArrayList<Message> lst = new ArrayList<Message>();
+
+        String s = args[0];
+        String colour = args[1];
+        int x = new Integer(args[2]);
+        int y = new Integer(args[3]);
+
+        if( s != null)
+            for(Message m: this.messageStack){
+                if(m.getMessage().contains(s)){
+                lst.add(m);
+            }
+        }
+        else
+            lst = this.messageStack;
+
+
+        if(colour != null)
+            for(Message m: lst){
+                if(m.getColour() != colour){
+                    lst.remove(m);
+            }
+        }
+
+        if(x != -1 && y != -1)
+            for(Message m: lst)
+                if (grid.getCell(x,y).messagePointers.contains(m) == false)
+                    lst.remove(m);
+
+        return lst;
+    }
+
 
 }
