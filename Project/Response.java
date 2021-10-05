@@ -14,11 +14,11 @@ public class Response implements Serializable{
     private ArrayList<Message> messagesList;
     private ArrayList<String> color;
     private Grid grid;
-    private ArrayList<int[][]> pins;
+    private ArrayList<int[]> pins;
 
     Response(Message message){ this.message = message; }
 
-    Response(List<int[][]> pins){ this.pins = (ArrayList<int[][]>) pins; }
+    Response(List<int[]> pins){ this.pins = (ArrayList<int[]>) pins; }
 
     Response(ArrayList<Message> messagesList){ this.messagesList = messagesList; }
 
@@ -62,7 +62,7 @@ public class Response implements Serializable{
         return grid;
     }
 
-    public ArrayList<int[][]> getPins() {
+    public ArrayList<int[]> getPins() {
         return pins;
     }
 

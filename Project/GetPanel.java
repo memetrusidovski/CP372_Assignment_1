@@ -15,6 +15,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GetPanel extends JPanel {
 
@@ -120,8 +121,16 @@ public class GetPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Request request = new Request(RequestCommand.GET,"PINS");
 				try {
+					resultsLayout.first(resultsPanel);
 					Response response = (Response) Client.getInstance().connection.send(request);
-					System.out.println(response.getPins());
+					ArrayList<JPanel> panels = new ArrayList<JPanel>();
+					for(int[] pin:response.getPins()) {
+						JPanel panel = new JPanel();
+						panel.add(new JLabel("Pin at: "+pin[0]+","+pin[1]));
+						panels.add(panel);
+					}
+					resultsCarousel.setContent(panels.toArray(new JPanel[0]));
+					resultsLayout.last(resultsPanel);
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(getPins.getRootPane(), "We couldn't get the pins because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
@@ -142,8 +151,16 @@ public class GetPanel extends JPanel {
 	private void get(String refersTo, String color, int x, int y) {
 		Request request = new Request(RequestCommand.GET,x,y,color,refersTo);
 		try {
+			resultsLayout.first(resultsPanel);
 			Response response = (Response) Client.getInstance().connection.send(request);
-			System.out.println(response.getMessagesList());
+			ArrayList<JPanel> panels = new ArrayList<JPanel>();
+			for(Message m:response.getMessagesList()) {
+				JPanel panel = new JPanel();
+				panel.add(new JLabel(m.getMessage()));
+				panels.add(panel);
+			}
+			resultsCarousel.setContent(panels.toArray(new JPanel[0]));
+			resultsLayout.last(resultsPanel);
 		}
 		catch (IllegalStateException e1) {
 			JOptionPane.showMessageDialog(this, "We couldn't get the messages because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);

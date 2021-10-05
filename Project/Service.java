@@ -55,12 +55,10 @@ public class Service implements Runnable {
 
                     outputStream.writeObject(new Response(messagesReturnList));
                 }
-
 				break;
 			case PIN:
                 this.addPin(x.getX(), x.getY());
                 outputStream.writeObject(new Response(x.getX(), x.getY()));
-
 				break;
 			case POST:
 				Message m = new Message(x.getMessage(), x.getX(), x.getY(),x.getWidth(),x.getHeight(), x.getColor().toUpperCase());
