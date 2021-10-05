@@ -72,11 +72,14 @@ public class PostPanel extends JPanel {
                 Client.getInstance().messagePanel.grid.messageStack.add(m);
                 Client.getInstance().frame.repaint();
 
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            } catch (ClassNotFoundException classNotFoundException) {
-                classNotFoundException.printStackTrace();
             }
+            catch (IllegalStateException e1) {
+				JOptionPane.showMessageDialog(send.getRootPane(), "We couldn't post the message because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (ClassNotFoundException | IOException e2) {
+				JOptionPane.showMessageDialog(send.getRootPane(), "We ran into a problem posting the message", "An Error Occured", JOptionPane.ERROR_MESSAGE);
+				e2.printStackTrace();
+			}
         });
         sendPanel.add(send);
         
