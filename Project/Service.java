@@ -57,8 +57,9 @@ public class Service implements Runnable {
                 }
 				break;
 			case PIN:
-                this.addPin(x.getX(), x.getY());
-                outputStream.writeObject(new Response(x.getX(), x.getY()));
+                boolean addSuccess = this.addPin(x.getX(), x.getY());
+                outputStream.writeObject(addSuccess ? new Response(x.getX(), x.getY()) : new Response("Pin Already Exists at This Location"));
+
 				break;
 			case POST:
 				Message m = new Message(x.getMessage(), x.getX(), x.getY(),x.getWidth(),x.getHeight(), x.getColor().toUpperCase());
@@ -86,13 +87,23 @@ public class Service implements Runnable {
 
     }
 
-    public void addPin(int x, int y){
-        Server.getDatabase().grid.pinCount++;
-        Server.getDatabase().grid.setPin(x,y);
-        Server.getDatabase().grid.getCell(x,y).messagePointers.forEach((e)-> {
-            e.status = true;
-            e.pinCount++;
-        });
+    public boolean addPin(int x, int y){
+        boolean addedSuccess = false;
+
+        if(Server.getDatabase().grid.getCell(x, y).hasPin == false) {
+            Server.getDatabase().grid.pinCount++;
+            Server.getDatabase().grid.setPin(x, y);
+            Server.getDatabase().grid.getCell(x, y).messagePointers.forEach((e) -> {
+                e.status = true;
+                e.pinCount++;
+            });
+            addedSuccess = true;
+        }
+        else {
+            System.out.println("Pin Already in This Location");
+        }
+
+        return addedSuccess;
     }
 
     public void shake() throws IndexOutOfBoundsException {

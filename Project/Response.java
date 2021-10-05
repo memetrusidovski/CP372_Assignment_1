@@ -15,12 +15,15 @@ public class Response implements Serializable{
     private ArrayList<String> color;
     private Grid grid;
     private ArrayList<int[]> pins;
+    private String errorMessage;
 
     Response(Message message){ this.message = message; }
 
     Response(List<int[]> pins){ this.pins = (ArrayList<int[]>) pins; }
 
     Response(ArrayList<Message> messagesList){ this.messagesList = messagesList; }
+
+    Response(String s ){ this.errorMessage = s;}
 
     //Pin Location
     Response(int x, int y){

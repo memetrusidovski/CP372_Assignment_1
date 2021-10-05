@@ -72,9 +72,20 @@ public class Grid implements Serializable {
         }
     }
 
-    public void setPin(int x, int y) {
-        this.pinLocations.add( new int[]{ x, y } );
-        this.grid.get(x).get(y).hasPin = true;
+    public boolean setPin(int x, int y) {
+        boolean r = false;
+
+
+        if(this.grid.get(x).get(y).hasPin == false) {
+            this.pinLocations.add(new int[]{x, y});
+            this.grid.get(x).get(y).hasPin = true;
+            r = true;//Pin added successfully
+        }
+        else{
+            System.out.println("There's Already a Pin at This Location");
+        }
+
+        return r;
     }
 
     public void removeMessage(Message removeMessage) {
