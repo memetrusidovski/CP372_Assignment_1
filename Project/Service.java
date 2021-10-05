@@ -49,7 +49,7 @@ public class Service implements Runnable {
 			case GET:
 			    if(x.getMessage().compareTo("PINS") == 0){
 
-                    outputStream.writeObject(new Response(Server.getDatabase().grid.pinLocations.get(0).toString()) );
+                    outputStream.writeObject(new Response(Server.getDatabase().grid.pinLocations) );
                 }
 			    else {
                     ArrayList<Message> messagesReturnList = this.searchMessages(x); //Send This Back to the user
