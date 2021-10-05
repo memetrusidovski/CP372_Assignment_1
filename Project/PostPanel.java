@@ -13,7 +13,6 @@ public class PostPanel extends JPanel {
 	private SpinnerNumberModel heightModel;
 
     public PostPanel() {
-        System.out.println("APPLE");
 	    this.initUI();
 	}
 
