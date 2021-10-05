@@ -1,8 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Response {
+public class Response implements Serializable{
 
-    private int x = -1;
+    
+	private static final long serialVersionUID = 3803052751744444021L;
+	private int x = -1;
     private int y = -1;
     private int width = -1;
     private int height = -1;

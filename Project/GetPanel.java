@@ -92,6 +92,28 @@ public class GetPanel extends JPanel {
 			}
 			
 		});
+		controls.add(send);
+		
+		JButton getPins = new JButton("Get Pins");
+		getPins.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Request request = new Request(RequestCommand.GET,"PINS");
+				try {
+					Object response = Client.getInstance().connection.send(request);
+				}
+				catch (IllegalStateException e1) {
+					JOptionPane.showMessageDialog(getPins.getRootPane(), "We couldn't get the pins because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (ClassNotFoundException | IOException e2) {
+					JOptionPane.showMessageDialog(getPins.getRootPane(), "We ran into a problem getting the pins", "An Error Occured", JOptionPane.ERROR_MESSAGE);
+					e2.printStackTrace();
+				}
+			}
+			
+		});
+		controls.add(getPins);
 		
 		add(controls);
 		add(resultsPanel);
@@ -100,7 +122,7 @@ public class GetPanel extends JPanel {
 	private void get(String refersTo, String color, int x, int y) {
 		Request request = new Request(RequestCommand.GET,x,y,color,refersTo);
 		try {
-			Client.getInstance().connection.send(request);
+			Object response = Client.getInstance().connection.send(request);
 		}
 		catch (IllegalStateException e1) {
 			JOptionPane.showMessageDialog(this, "We couldn't get the messages because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
