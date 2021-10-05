@@ -55,28 +55,36 @@ public class Database {
         ArrayList<Message> lst = new ArrayList<Message>();
 
 
-        if( s != null)
+        if(!s.isBlank()) {
             for(Message m: this.grid.messageStack){
                 if(m.getMessage().contains(s)){
-                lst.add(m);
+                	lst.add(m);
+                }
             }
         }
-        else
+        else {
             lst = this.grid.messageStack;
+        }
 
 
-        if(colour != null)
-            for(Message m: lst){
+        if(!colour.isBlank()) {
+        	ArrayList<Message> temp = new ArrayList<Message>(lst);
+            for(Message m: temp){
                 if(m.getColour() != colour){
                     lst.remove(m);
+                }
             }
         }
 
-        if(x != -1 && y != -1)
-            for(Message m: lst)
-                if (grid.getCell(x,y).messagePointers.contains(m) == false)
+        if(x != -1 && y != -1) {
+        	ArrayList<Message> temp = new ArrayList<Message>(lst);
+            for(Message m: temp) {
+                if (grid.getCell(x,y).messagePointers.contains(m) == false) {
                     lst.remove(m);
-
+                }
+            }
+        }
+        
         return lst;
     }
 
