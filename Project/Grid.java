@@ -74,8 +74,7 @@ public class Grid implements Serializable {
 
     public void setPin(int x, int y) {
         this.pinLocations.add( new int[][]{ {x}, {y} } );
-
-        this.grid.get(y).get(x).hasPin = true;
+        this.grid.get(x).get(y).hasPin = true;
     }
 
     public void removeMessage(Message removeMessage) {
@@ -87,6 +86,25 @@ public class Grid implements Serializable {
             for (int x = getX; x < getX + removeMessage.getWidth() && x <= this.width; x++) {
                 this.grid.get(x).get(y).messagePointers.remove(removeMessage);
             }
+        }
+    }
+
+    public void removePin(int x, int y){
+
+        GridCell cell = this.getCell(x,y);
+
+        if(cell.hasPin == true) {
+            for (Message m : cell.messagePointers) {
+                int c = this.messageStack.indexOf(m);
+                this.messageStack.get(c).pinCount--;
+            }
+            cell.hasPin = false;
+
+            this.pinLocations.removeIf( (e) -> e.equals( new int[][]{{x},{y}}) );
+
+        }
+        else{
+            System.out.println("This Location Has No Pin.");
         }
     }
 }

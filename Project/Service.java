@@ -32,9 +32,9 @@ public class Service implements Runnable {
 	    System.out.println("Recieved request for "+x.getCommand().name());
 	    switch(x.getCommand()) {
 			case CLEAR:
-				outputStream.writeObject(new Serializable() {
-					private static final long serialVersionUID = 8933877268367440958L;
-				}); //TODO Replace with actual response Object
+			    Server.getDatabase().grid = new Grid(Server.getDatabase().boardWidth, Server.getDatabase().boardHeight);
+			    outputStream.writeObject(new Response(Server.getDatabase().grid));
+
 				break;
 			case CONNECTED:
 				Server.getDatabase().grid.setMessage(new Message("message", 2, 2,2,2, "RED"));
@@ -44,7 +44,6 @@ public class Service implements Runnable {
 			    // Send the grid to the client
 		        outputStream.writeObject(new Response( Server.getDatabase().grid ) );
 
-		        this.addPin(2,2);
 				break;
 			case GET:
 			    if(x.getMessage().compareTo("PINS") == 0){
@@ -59,9 +58,9 @@ public class Service implements Runnable {
 
 				break;
 			case PIN:
-				outputStream.writeObject(new Serializable() {
-					private static final long serialVersionUID = 8933877268367440958L;
-				}); //TODO Replace with actual response Object
+                this.addPin(x.getX(), x.getY());
+                outputStream.writeObject(new Response(x.getX(), x.getY()));
+
 				break;
 			case POST:
 				Message m = new Message(x.getMessage(), x.getX(), x.getY(),x.getWidth(),x.getHeight(), x.getColor().toUpperCase());
@@ -74,12 +73,11 @@ public class Service implements Runnable {
 				outputStream.writeObject(new Response(Server.getDatabase().grid) );
 				break;
 			case UNPIN:
-				outputStream.writeObject(new Serializable() {
-					private static final long serialVersionUID = 8933877268367440958L;
-				}); //TODO Replace with actual response Object
+			    Server.getDatabase().grid.removePin(x.getX(), x.getY());
+                outputStream.writeObject(new Response(x.getX(), x.getY()));
+
 				break;
 			default:
-				System.out.println("STUCK>>>");
 				outputStream.writeObject(new Serializable() {
 					private static final long serialVersionUID = 8933877268367440958L;
 				}); //TODO Replace with actual response Object
@@ -124,23 +122,17 @@ public class Service implements Runnable {
     public ArrayList<Message> searchMessages(Request request){
         ArrayList<Message> lst = new ArrayList<Message>();
 
-        System.out.println("<><><><><>" + request.getColor());
         if(request.getX() == -1 && request.getY() == -1 && request.getColor().isBlank() && request.getMessage().isBlank())
             lst = Server.getDatabase().grid.messageStack;
         else if(request.getX() == -1 && request.getY() == -1 && request.getColor().isBlank())
             lst = Server.getDatabase().searchMessagesByString(request.getMessage());
-        else if(request.getX() == -1 && request.getY() == -1 && request.getMessage().isBlank()) {
-
+        else if(request.getX() == -1 && request.getY() == -1 && request.getMessage().isBlank())
             lst = Server.getDatabase().searchMessagesByColour(request.getColor());
-
-        }
         else if(request.getColor().isBlank() && request.getMessage().isBlank())
             lst = Server.getDatabase().searchMessagesByLocation(request.getX(), request.getY());
-
-        else {
+        else
             lst = Server.getDatabase().searchMessagesByMulti(request.getMessage(), request.getColor(), request.getX(), request.getY());
-            System.out.println("++++++++");
-        }
+
 
         return lst;
 

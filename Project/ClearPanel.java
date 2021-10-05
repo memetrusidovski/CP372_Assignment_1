@@ -28,7 +28,11 @@ public class ClearPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Request request = new Request(RequestCommand.CLEAR);
 				try {
-					Client.getInstance().connection.send(request);
+                    Response response = Client.getInstance().connection.send(request);
+                    Grid x = response.getGrid();
+                    Client.getInstance().grid = x;
+                    Client.getInstance().messagePanel.grid = x;
+                    Client.getInstance().frame.repaint();
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(clearButton.getRootPane(), "We couldn't clear the board because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
