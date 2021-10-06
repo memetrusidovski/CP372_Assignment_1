@@ -9,8 +9,6 @@ public class Server {
 
     public static void main(String argv[]) throws Exception {
         ArrayList<String> colors = new ArrayList<String>();
-        colors.add("gray"); //Default colour
-
 
         /*for(int c = 3; c < argv.length; c++){
             colors.add(argv[c]);
