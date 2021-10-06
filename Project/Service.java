@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Service implements Runnable {
     Database database;
@@ -68,8 +69,20 @@ public class Service implements Runnable {
 		        outputStream.writeObject(new Response(m));
 				break;
 			case SHAKE:
-				this.shake();
-				outputStream.writeObject(new Response(Server.getDatabase().grid) );
+			    boolean allMessagesPinned = true;
+                for(Message message: Server.getDatabase().grid.messageStack){
+                    if(message.pinCount == 0)
+                        allMessagesPinned = false;
+                }
+
+                if(allMessagesPinned == false) {
+                    this.shake();
+                    outputStream.writeObject(new Response(Server.getDatabase().grid));
+                }
+                else {
+                    outputStream.writeObject(new Response("All Messages are Pinned"));
+                }
+
 				break;
 			case UNPIN:
 			    if(Server.getDatabase().grid.getCell(x.getX(), x.getY()).hasPin == true) {

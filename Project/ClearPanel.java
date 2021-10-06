@@ -51,11 +51,16 @@ public class ClearPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Request request = new Request(RequestCommand.SHAKE);
 				try {
-				    Response response = (Response) Client.getInstance().connection.send(request);
-					Grid x = response.getGrid();
-					Client.getInstance().grid = x;
-			        Client.getInstance().messagePanel.grid = x;
-			        Client.getInstance().frame.repaint();
+				    Response response = Client.getInstance().connection.send(request);
+				    if(response.getErrorMessage() == null) {
+                        Grid x = response.getGrid();
+                        Client.getInstance().grid = x;
+                        Client.getInstance().messagePanel.grid = x;
+                        Client.getInstance().frame.repaint();
+                    }
+				    else{
+                        JOptionPane.showMessageDialog(shakeButton.getRootPane(), response.getErrorMessage());
+                    }
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(shakeButton.getRootPane(), "We couldn't shake the board because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
