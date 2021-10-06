@@ -81,9 +81,7 @@ public class Service implements Runnable {
                 }
 				break;
 			default:
-				outputStream.writeObject(new Serializable() {
-					private static final long serialVersionUID = 8933877268367440958L;
-				}); //TODO Replace with actual response Object
+				outputStream.writeObject(new Response("Invalid Command"));
 				break;
 	    }
     	System.out.println("Someone disconnected");
