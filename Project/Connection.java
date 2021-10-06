@@ -36,10 +36,12 @@ public class Connection {
 		Client.getInstance().postPanel.colorList.removeAllItems();
 		Client.getInstance().getPanel.colorList.removeAllItems();
 		Client.getInstance().getPanel.colorList.addItem("Any Colour");
-	    for(String s: lst) {
-            Client.getInstance().postPanel.colorList.addItem(s);
-            Client.getInstance().getPanel.colorList.addItem(s);
-	    }
+		if(lst != null) {
+		    for(String s: lst) {
+	            Client.getInstance().postPanel.colorList.addItem(s);
+	            Client.getInstance().getPanel.colorList.addItem(s);
+		    }
+		}
     }
 
 	public void disconnect() {
