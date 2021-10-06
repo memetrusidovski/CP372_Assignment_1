@@ -29,7 +29,7 @@ public class Client {
     }
 
     private void initUI() {
-    	String st = "Google";
+    	String st = "Welcome To The CP372 Message Board!";
 
         //Set up Main Frame
         frame = new JFrame("Chat Client");

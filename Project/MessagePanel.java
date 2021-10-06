@@ -20,6 +20,7 @@ public class MessagePanel extends JPanel {
         Map.entry( "ORANGE", Color.ORANGE),
         Map.entry( "RED", Color.RED),
         Map.entry( "YELLOW", Color.YELLOW),
+        Map.entry( "GRAY", Color.GRAY),
         Map.entry( "WHITE", Color.WHITE),
         Map.entry( "GREEN", Color.GREEN),
         Map.entry( "CYAN", Color.CYAN));

@@ -131,6 +131,7 @@ public class Service implements Runnable {
     public ArrayList<Message> searchMessages(Request request){
         ArrayList<Message> lst = new ArrayList<Message>();
 
+
         if(request.getX() == -1 && request.getY() == -1 && request.getColor().isBlank() && request.getMessage().isBlank())
             lst = Server.getDatabase().grid.messageStack;
         else if(request.getX() == -1 && request.getY() == -1 && request.getColor().isBlank())

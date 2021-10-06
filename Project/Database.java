@@ -25,6 +25,7 @@ public class Database {
     public ArrayList<Message> searchMessagesByString(String s){
         ArrayList<Message> lst = new ArrayList<Message>();
 
+        System.out.println(s + "<<<<<<<<<");
         for(Message m: this.grid.messageStack){
             if(m.getMessage().contains(s)){
                 lst.add(m);
@@ -84,7 +85,7 @@ public class Database {
                 }
             }
         }
-        
+
         return lst;
     }
 
