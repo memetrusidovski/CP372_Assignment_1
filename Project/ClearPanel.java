@@ -73,6 +73,7 @@ public class ClearPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Client.getInstance().connection.disconnect();
+				JOptionPane.showMessageDialog(dcButton.getRootPane(), "Disconnected");
 			}
 
 		});
