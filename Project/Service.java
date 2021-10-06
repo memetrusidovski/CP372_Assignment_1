@@ -72,9 +72,13 @@ public class Service implements Runnable {
 				outputStream.writeObject(new Response(Server.getDatabase().grid) );
 				break;
 			case UNPIN:
-			    Server.getDatabase().grid.removePin(x.getX(), x.getY());
-                outputStream.writeObject(new Response(x.getX(), x.getY()));
-
+			    if(Server.getDatabase().grid.getCell(x.getX(), x.getY()).hasPin == true) {
+                    Server.getDatabase().grid.removePin(x.getX(), x.getY());
+                    outputStream.writeObject(new Response(x.getX(), x.getY()));
+                }
+			    else{
+                    outputStream.writeObject(new Response("There is no pin at this location to be unpinned"));
+                }
 				break;
 			default:
 				outputStream.writeObject(new Serializable() {

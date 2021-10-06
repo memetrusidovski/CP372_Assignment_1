@@ -20,27 +20,27 @@ public class PinPanel extends JPanel {
 	public PinPanel() {
 		this.initUI();
 	}
-	
+
 	private void initUI() {
-		
+
 		xModel = new SpinnerNumberModel(0, 0, 0, 1);
 		yModel = new SpinnerNumberModel(0, 0, 0, 1);
-		
+
 		JPanel xPanel 	  = new JPanel();
 		JLabel xLabel 	  = new JLabel("X:");
 		JSpinner xSpinner = new JSpinner(xModel);
 		xPanel.add(xLabel);
 		xPanel.add(xSpinner);
-		
+
 		JPanel yPanel 	  = new JPanel();
 		JLabel yLabel 	  = new JLabel("Y:");
 		JSpinner ySpinner = new JSpinner(yModel);
 		yPanel.add(yLabel);
 		yPanel.add(ySpinner);
-		
+
 		JButton pinButton 	= new JButton("Pin");
 		JButton unpinButton = new JButton("Unpin");
-		
+
 		pinButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -59,9 +59,9 @@ public class PinPanel extends JPanel {
 					e2.printStackTrace();
 				}
 			}
-			
+
 		});
-		
+
 		unpinButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -70,7 +70,10 @@ public class PinPanel extends JPanel {
 				int y = yModel.getNumber().intValue();
 				Request request = new Request(RequestCommand.UNPIN,x,y);
 				try {
-					Client.getInstance().connection.send(request);
+					Response response = Client.getInstance().connection.send(request);
+					if(response.getX() == -1){
+					    JOptionPane.showMessageDialog(pinButton.getRootPane(), response.getErrorMessage());
+                    }
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(pinButton.getRootPane(), "We couldn't remove the pin because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
@@ -80,16 +83,16 @@ public class PinPanel extends JPanel {
 					e2.printStackTrace();
 				}
 			}
-			
+
 		});
-		
+
 		setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(10, 0, 10, 0);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridy++;
-		
+
 		add(xPanel,gbc);
 		gbc.gridy++;
 		add(yPanel,gbc);
@@ -97,9 +100,9 @@ public class PinPanel extends JPanel {
 		add(pinButton,gbc);
 		gbc.gridy++;
 		add(unpinButton,gbc);
-		
+
 	}
-	
+
 	public void updateDimensions(int x, int y) throws IllegalArgumentException {
 		if(x < 0 || y < 0) {
 			throw new IllegalArgumentException("Dimensions of the grid can't be negative");
@@ -107,10 +110,10 @@ public class PinPanel extends JPanel {
 		xModel.setMaximum(x);
 		yModel.setMaximum(y);
 	}
-	
+
 	public void resetDimensions() {
 		xModel.setMaximum(0);
 		yModel.setMaximum(0);
 	}
-	
+
 }

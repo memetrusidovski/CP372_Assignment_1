@@ -69,5 +69,11 @@ public class Response implements Serializable{
         return pins;
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }
