@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ public class GetPanel extends JPanel {
 	private CardLayout resultsLayout;
 	private JPanel resultsPanel;
 	private CarouselPanel resultsCarousel;
+	private JLabel singleLabel;
 	private SpinnerNumberModel xModel;
 	private SpinnerNumberModel yModel;
 	JComboBox<String> colorList;
@@ -37,7 +39,10 @@ public class GetPanel extends JPanel {
 
 		resultsLayout = new CardLayout();
 		resultsPanel = new JPanel(resultsLayout);
-		resultsPanel.add(new JPanel());
+		JPanel placeholder = new JPanel();
+		singleLabel = new JLabel("");
+		placeholder.add(singleLabel);
+		resultsPanel.add(placeholder);
 		resultsCarousel = new CarouselPanel();
 		resultsPanel.add(resultsCarousel);
 		xModel = new SpinnerNumberModel(0, 0, 0, 1);
@@ -121,16 +126,28 @@ public class GetPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Request request = new Request(RequestCommand.GET,"PINS");
 				try {
+					singleLabel.setForeground(Color.BLACK);
+					singleLabel.setText("");
 					resultsLayout.first(resultsPanel);
 					Response response = (Response) Client.getInstance().connection.send(request);
-					ArrayList<JPanel> panels = new ArrayList<JPanel>();
-					for(int[] pin:response.getPins()) {
-						JPanel panel = new JPanel();
-						panel.add(new JLabel("Pin at: "+pin[0]+","+pin[1]));
-						panels.add(panel);
+					if(response.getPins().size() > 1) {
+						ArrayList<JPanel> panels = new ArrayList<JPanel>();
+						for(int[] pin:response.getPins()) {
+							JPanel panel = new JPanel();
+							panel.add(new JLabel("Pin at: "+pin[0]+","+pin[1]));
+							panels.add(panel);
+						}
+						resultsCarousel.setContent(panels.toArray(new JPanel[0]));
+						resultsLayout.last(resultsPanel);
 					}
-					resultsCarousel.setContent(panels.toArray(new JPanel[0]));
-					resultsLayout.last(resultsPanel);
+					else if(response.getPins().size() == 1) {
+						int[] pin = response.getPins().get(0);
+						singleLabel.setText("Pin at: "+pin[0]+","+pin[1]);
+					}
+					else {
+						singleLabel.setForeground(Color.RED);
+						singleLabel.setText("No Pins");
+					}
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(getPins.getRootPane(), "We couldn't get the pins because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
@@ -151,16 +168,27 @@ public class GetPanel extends JPanel {
 	private void get(String refersTo, String color, int x, int y) {
 		Request request = new Request(RequestCommand.GET,x,y,color,refersTo);
 		try {
+			singleLabel.setForeground(Color.BLACK);
+			singleLabel.setText("");
 			resultsLayout.first(resultsPanel);
 			Response response = (Response) Client.getInstance().connection.send(request);
-			ArrayList<JPanel> panels = new ArrayList<JPanel>();
-			for(Message m:response.getMessagesList()) {
-				JPanel panel = new JPanel();
-				panel.add(new JLabel(m.getMessage()));
-				panels.add(panel);
+			if(response.getMessagesList().size() > 1) {
+				ArrayList<JPanel> panels = new ArrayList<JPanel>();
+				for(Message m:response.getMessagesList()) {
+					JPanel panel = new JPanel();
+					panel.add(new JLabel(m.getMessage()));
+					panels.add(panel);
+				}
+				resultsCarousel.setContent(panels.toArray(new JPanel[0]));
+				resultsLayout.last(resultsPanel);
 			}
-			resultsCarousel.setContent(panels.toArray(new JPanel[0]));
-			resultsLayout.last(resultsPanel);
+			else if(response.getMessagesList().size() == 1) {
+				singleLabel.setText(response.getMessagesList().get(0).getMessage());
+			}
+			else {
+				singleLabel.setForeground(Color.RED);
+				singleLabel.setText("No Messages");
+			}
 		}
 		catch (IllegalStateException e1) {
 			JOptionPane.showMessageDialog(this, "We couldn't get the messages because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
