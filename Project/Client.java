@@ -14,8 +14,10 @@ public class Client {
     PinPanel pinPanel;
     PostPanel postPanel;
     GetPanel getPanel;
+    ConnectPanel connectPanel;
 
     JFrame frame;
+    String st = "Connected";
 
     final Connection connection = new Connection();
 
@@ -29,7 +31,7 @@ public class Client {
     }
 
     private void initUI() {
-    	String st = "Connected";
+
     	System.out.println("Welcome To The CP372 Message Board!");
 
         //Set up Main Frame
@@ -38,7 +40,7 @@ public class Client {
         frame.setSize(1000, 1000);
         frame.setLayout(new BorderLayout());
 
-        ConnectPanel connectPanel = new ConnectPanel(st);
+         connectPanel = new ConnectPanel(st);
         			 postPanel	  = new PostPanel();
         			 getPanel	  = new GetPanel();
         			 pinPanel	  = new PinPanel();

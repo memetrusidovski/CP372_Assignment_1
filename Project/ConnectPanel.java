@@ -4,10 +4,11 @@ import javax.swing.*;
 public class ConnectPanel extends JPanel {
 
 	private static final long serialVersionUID = 5634329278457109224L;
-	private String s;
+	String s;
 	private JTextField address;
 	private JTextField port;
-	Grid grid;
+    JLabel label;
+    Grid grid;
 
     public ConnectPanel(String st){
     	this.s = st;
@@ -16,7 +17,7 @@ public class ConnectPanel extends JPanel {
 
     private void initUI(){
 
-        JLabel label 	= new JLabel("IP Address");
+                label 	= new JLabel("IP Address");
         		address = new JTextField(10); // accepts up to 10 characters
         		port 	= new JTextField(4);
         JButton send = new JButton("Connect");
