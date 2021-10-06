@@ -49,7 +49,13 @@ public class PinPanel extends JPanel {
 				int y = yModel.getNumber().intValue();
 				Request request = new Request(RequestCommand.PIN,x,y);
 				try {
-					Client.getInstance().connection.send(request);
+					Response response = Client.getInstance().connection.send(request);
+					if(response.getX() == -1) {
+						JOptionPane.showMessageDialog(unpinButton.getRootPane(), response.getErrorMessage());
+					}
+					else {
+						JOptionPane.showMessageDialog(pinButton.getRootPane(), "Pin placed at "+response.getX()+","+response.getY());
+					}
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(pinButton.getRootPane(), "We couldn't place the pin because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
@@ -72,8 +78,11 @@ public class PinPanel extends JPanel {
 				try {
 					Response response = Client.getInstance().connection.send(request);
 					if(response.getX() == -1){
-					    JOptionPane.showMessageDialog(pinButton.getRootPane(), response.getErrorMessage());
+					    JOptionPane.showMessageDialog(unpinButton.getRootPane(), response.getErrorMessage());
                     }
+					else {
+						JOptionPane.showMessageDialog(unpinButton.getRootPane(), "Pin at "+response.getX()+","+response.getY()+" removed");
+					}
 				}
 				catch (IllegalStateException e1) {
 					JOptionPane.showMessageDialog(pinButton.getRootPane(), "We couldn't remove the pin because we aren't connected to a server", "Not Connected", JOptionPane.ERROR_MESSAGE);
