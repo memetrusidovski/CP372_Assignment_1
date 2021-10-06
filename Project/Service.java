@@ -2,7 +2,6 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,9 +93,7 @@ public class Service implements Runnable {
                 }
 				break;
 			default:
-				outputStream.writeObject(new Serializable() {
-					private static final long serialVersionUID = 8933877268367440958L;
-				}); //TODO Replace with actual response Object
+				outputStream.writeObject(new Response("Invalid Command"));
 				break;
 	    }
     	System.out.println("Someone disconnected");

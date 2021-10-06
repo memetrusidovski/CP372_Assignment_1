@@ -15,15 +15,19 @@ public class MessagePanel extends JPanel {
     String message = "Hello welcome message";
     Grid grid;
 
-    Map<String, Color> colorMap = Map.ofEntries(Map.entry("BLUE", Color.BLUE),
-        Map.entry( "BLACK", Color.BLACK),
-        Map.entry( "ORANGE", Color.ORANGE),
-        Map.entry( "RED", Color.RED),
-        Map.entry( "YELLOW", Color.YELLOW),
-        Map.entry( "GRAY", Color.GRAY),
-        Map.entry( "WHITE", Color.WHITE),
-        Map.entry( "GREEN", Color.GREEN),
-        Map.entry( "CYAN", Color.CYAN));
+    Map<String, Color> colorMap = Map.ofEntries(
+		Map.entry( "BLACK",   Color.BLACK),
+		Map.entry( "BLUE",    Color.BLUE),
+		Map.entry( "CYAN",    Color.CYAN),
+		Map.entry( "GRAY",    Color.GRAY),
+		Map.entry( "GREEN",   Color.GREEN),
+		Map.entry( "MAGENTA", Color.MAGENTA),
+		Map.entry( "ORANGE",  Color.ORANGE),
+		Map.entry( "PINK",    Color.PINK),
+		Map.entry( "RED",     Color.RED),
+		Map.entry( "WHITE",   Color.WHITE),
+		Map.entry( "YELLOW",  Color.YELLOW)
+	);
 
     MessagePanel(Grid grid){
         this.grid = grid;
@@ -52,7 +56,7 @@ public class MessagePanel extends JPanel {
         //Print All Messages
         if(this.grid != null)
         for(Message m: this.grid.messageStack){
-            gr.setColor(colorMap.get(m.getColour()));
+            gr.setColor(colorMap.getOrDefault(m.getColour().toUpperCase(), Color.GRAY));
 
             gr.fillRect(m.getX() * 10, m.getY() * 10, m.getHeight() * 10, m.getWidth() * 10);
 
@@ -154,7 +158,6 @@ public class MessagePanel extends JPanel {
             Map.entry("lime",                 LIME),
             Map.entry("limegreen",            LIMEGREEN),
             Map.entry("linen",                LINEN),
-            Map.entry("magenta",              MAGENTA),
             Map.entry("maroon",               MAROON),
             Map.entry("mediumaquamarine",     MEDIUMAQUAMARINE),
             Map.entry("mediumblue",           MEDIUMBLUE),
